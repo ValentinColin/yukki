@@ -4,6 +4,7 @@ import discord
 from discord.ext import commands
 from config import emoji
 from tools.access import access
+from tools.format import fcite, fmarkdown
 
 
 class Jail(commands.Cog):
@@ -38,8 +39,7 @@ class Jail(commands.Cog):
 	@commands.command(name='jail', 
 					aliases=['emprisonner', 'emprisonnement'], 
 					help='Envoie une personne en prison')
-	# @commands.has_role('Policeman')
-	@commands.has_role('Policeman')
+	@access.has_role('Policeman')
 	async def jail(self, ctx: commands.Context, new_prisoner: discord.Member):
 		"""Mettre une personne en prison."""
 		jail_role = self.get_role(ctx)
@@ -57,12 +57,13 @@ class Jail(commands.Cog):
 							deafen=False, 
 							roles=[jail_role])
 		Jail.prisoners.append(new_prisoner)
-		await ctx.send(f'> {emoji.lock} {new_prisoner.mention}, vous avez été placé en prison ! {emoji.lock}')
+		txt = f'{emoji.lock} {new_prisoner.mention}, vous avez été placé en prison ! {emoji.lock}'
+		await ctx.send(fcite(txt))
 
 	@commands.command(name='unjail', 
 					aliases=['liberer', 'liberation'], 
 					help='Envoie une personne en prison')
-	@commands.has_role('Policeman')
+	@access.has_role('Policeman')
 	async def unjail(self, ctx: commands.Context, new_free_user: discord.Member):
 		"""Libérer une personne de prison."""
 		jail_role = self.get_role(ctx)
@@ -76,14 +77,16 @@ class Jail(commands.Cog):
 			await new_free_user.remove_roles(jail_role)
 			# await new_free_user.move_to(channel=None)
 		Jail.prisoners.remove(new_free_user)
-		await ctx.send(f'> {emoji.unlock} {new_free_user.mention}, vous avez été libéré de prison ! {emoji.unlock}')
+		txt = f'{emoji.unlock} {new_free_user.mention}, vous avez été libéré de prison ! {emoji.unlock}'
+		await ctx.send(fcite(txt))
 
 	@commands.command(name='jail_visitor', aliases=['voir_prisonnier'], help='Voir la liste des prisonniers')
 	async def jail_visitor(self, ctx: commands.Context):
 		"""Voir la liste des prisonniers."""
 		list_prisoners = '\n- '.join([''] + [prisoner.name for prisoner in Jail.prisoners])
 		list_emoji = 10 * (emoji.jail + ' ')
-		await ctx.send(f'```md\nListe des prisonniers: {list_emoji} {list_prisoners}```')
+		txt = f'Liste des prisonniers: {list_emoji} {list_prisoners}'
+		await ctx.send(fmarkdown(txt))
 
 def setup(bot: commands.Bot):
 	"""Setup the bot for the main cog."""
