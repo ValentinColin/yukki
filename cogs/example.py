@@ -1,7 +1,18 @@
 #!/usr/bin/env python3.9
 """An example file for test the discord API."""
-import discord
+#import urllib.request
+#import subprocess
+#import platform
+#import requests
+#import asyncio
+#import random
+#import socket
+#import json
+#import discord
 from discord.ext import commands
+#from discord.http import Route
+
+from config.config import my_id
 from tools.format import fcite
 
 
@@ -21,21 +32,21 @@ class Example(commands.Cog):
 	# Commandes #
 	# ######### #
 
-	@commands.command(help='ping pong!')
-	async def ping(self, ctx: commands.Context):
-		"""Ping pong."""
-		await ctx.send(fcite('Pong!'))
+	def is_me():
+		def predicate(ctx):
+			return ctx.message.author.id == my_id
+		return commands.check(predicate)
 
-	@commands.command(aliases=['dire'], help='Faire dire quelque chose au bot')
-	async def say(self, ctx: commands.Context, *, txt: str = 'Donne moi un texte à dire.'):
-		"""Fais dire un txt au bot."""
-		await ctx.send(fcite(txt))
+	@commands.command()
+	@is_me()
+	async def only_me(ctx):
+		await ctx.send('Only you!')
 
 	@commands.command(name='test', help='Commande de test/brouillon', hidden=True)
-	async def test(self, ctx, *args, **kwargs):
+	async def test(self, ctx: commands.Context, *args, **kwargs):
 		"""Commande de test/brouillon."""
 		await ctx.send('Cette commande ne fait rien du tout.')
-		
+
 
 def setup(bot: commands.Bot):
 	"""Setup the bot for the main cog."""
