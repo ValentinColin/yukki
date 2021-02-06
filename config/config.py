@@ -11,3 +11,6 @@ DISCORD_TOKEN = os.getenv('DISCORD_TOKEN')
 PREFIX = '.' # prefix des commandes discord
 masters_id 	= [	283649186446966784	# Call_me_Valou
 				]
+
+path_todo_list = 'data/md/TODO.md'
+path_todo_json = 'data/json/TODO.json'

@@ -1,0 +1,105 @@
+{
+	"abstract": {
+		"title": "TODO-list",
+		"creation_date": "2021-02-05",
+		"author": "Valentin Colin"
+	},
+
+	"nodes_list": ["1", "1.1", "2", "2.1", "2.1.1"], // listes totale des nodes ?
+
+	"nodes": { // Description complète des noeuds
+		"1": {
+			"todo": [false, "Faire un système de changement de préfix de commande"]
+		},
+		"2": {
+			"todo": [false, "Faire des décorateurs qui permettent l'exec uniquement par:"],
+			"2.1": {
+				"todo": [true, "moi (ou un groupe de compte ajouter en dur dans le code)"]
+			},
+			"2.2": {
+				"todo": [false, "le proprio"]
+			},
+			"2.3": {
+				"todo": [true, "un rôle"]
+			},
+			"2.4": {
+				"todo": [true, "plusieurs rôles"]
+			},
+			"2.5": {
+				"todo": [true, "au moins n rôles parmis les rôles"]
+			}
+		},
+		"3": {
+			"todo": [false, "Faire des jeux, casino ?"]
+		},
+		"4": {
+			"todo": [false, "Todo-list"],
+			"4.1": {
+				"todo": [true, "Afficher"]
+			},
+			"4.2": {
+				"todo": [true, "Ajouter des éléments"]
+			},
+			"4.3": {
+				"todo": [true, "Supprimer des éléments"]
+			},
+			"4.4": {
+				"todo": [false, "Insérer des éléments"]
+			},
+			"4.5": {
+				"todo": [false, "Cocher des éléments"]
+			}
+		},
+		"5": {
+			"todo": [false, "Faire venir le bot dans un channel"],
+			"5.1": {
+				"todo": [false, "Lui faire dire oralement des choses (cf: marc)"]
+			},
+			"5.2": {
+				"todo": [false, "Musique"]
+			}
+		},
+		"6": {
+			"todo": [false, "Faire un cogs de prison"]
+		},
+		"7": {
+			"todo": [false, "Faire un cogs de rôles"]
+		},
+		"8": {
+			"todo": [false, "Faire un cogs de statistiques du serveur"]
+		},
+		"9": {
+			"todo": [false, "Faire un cogs de spam/troll"]
+		},
+		"10": {
+			"todo": [false, "Faire un cogs de question/réponse avec le bot"],
+			"10.1": {
+				"todo": [false, "Utiliser une IA"]
+			},
+			"10.2": {
+				"todo": [false, "Sous tache"],
+				"10.1.1": {
+					"todo": [false, "Sous-sous tache"]
+				}
+			}
+		},
+		"11": {
+			"todo": [false, "Stocker des données:"],
+			"11.1": {
+				"todo": [false, "JSON"]
+			},
+			"11.2": {
+				"todo": [false, "YAML"]
+			},
+			"11.3": {
+				"todo": [false, "SQL"]
+			}
+		},
+		"12": {
+			"todo": [false, "Faire un cogs de sondage"]
+		},
+		"13": {
+			"todo": [false, "Faire un cogs de 'liens utiles'"]
+		}
+	}
+}
