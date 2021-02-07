@@ -6,30 +6,26 @@ from tools.format import fcite
 
 
 class Troll:
-	"""Classe de Troll pour discord."""
+    """Classe de Troll pour discord."""
 
-	# ###### #
-	# Events #
-	# ###### #
+    # ###### #
+    # Events #
+    # ###### #
 
-	@commands.Cog.listener()
-	async def on_ready(self):
-		"""Déclare être prêt."""
-		print('\tTroll\'s Cog is ready.')
+    @commands.Cog.listener()
+    async def on_ready(self):
+        """Déclare être prêt."""
+        print("\tTroll's Cog is ready.")
 
-	# ######### #
-	# Functions #
-	# ######### #
+    # ######### #
+    # Functions #
+    # ######### #
 
-
-
-	# ######### #
-	# Commandes #
-	# ######### #
-
-
+    # ######### #
+    # Commandes #
+    # ######### #
 
 
 def setup(bot: commands.Bot):
-	"""Setup the bot for the main cog."""
-	bot.add_cog(Troll(bot))
+    """Setup the bot for the main cog."""
+    bot.add_cog(Troll(bot))

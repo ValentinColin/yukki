@@ -6,30 +6,26 @@ from tools.format import fcite
 
 
 class Spam:
-	"""Classe de Spam pour discord."""
+    """Classe de Spam pour discord."""
 
-	# ###### #
-	# Events #
-	# ###### #
+    # ###### #
+    # Events #
+    # ###### #
 
-	@commands.Cog.listener()
-	async def on_ready(self):
-		"""Déclare être prêt."""
-		print('\tSpam\'s Cog is ready.')
+    @commands.Cog.listener()
+    async def on_ready(self):
+        """Déclare être prêt."""
+        print("\tSpam's Cog is ready.")
 
-	# ######### #
-	# Functions #
-	# ######### #
+    # ######### #
+    # Functions #
+    # ######### #
 
-
-
-	# ######### #
-	# Commandes #
-	# ######### #
-
-
+    # ######### #
+    # Commandes #
+    # ######### #
 
 
 def setup(bot: commands.Bot):
-	"""Setup the bot for the main cog."""
-	bot.add_cog(Spam(bot))
+    """Setup the bot for the main cog."""
+    bot.add_cog(Spam(bot))

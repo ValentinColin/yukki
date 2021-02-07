@@ -6,30 +6,26 @@ from tools.format import fcite
 
 
 class Role:
-	"""Classe de gestion des rôles sur discord."""
+    """Classe de gestion des rôles sur discord."""
 
-	# ###### #
-	# Events #
-	# ###### #
+    # ###### #
+    # Events #
+    # ###### #
 
-	@commands.Cog.listener()
-	async def on_ready(self):
-		"""Déclare être prêt."""
-		print('\tRole\'s Cog is ready.')
+    @commands.Cog.listener()
+    async def on_ready(self):
+        """Déclare être prêt."""
+        print("\tRole's Cog is ready.")
 
-	# ######### #
-	# Functions #
-	# ######### #
+    # ######### #
+    # Functions #
+    # ######### #
 
-
-
-	# ######### #
-	# Commandes #
-	# ######### #
-
-
+    # ######### #
+    # Commandes #
+    # ######### #
 
 
 def setup(bot: commands.Bot):
-	"""Setup the bot for the main cog."""
-	bot.add_cog(Role(bot))
+    """Setup the bot for the main cog."""
+    bot.add_cog(Role(bot))
