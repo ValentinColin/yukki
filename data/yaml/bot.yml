@@ -19,7 +19,7 @@ bot:
     joke: joke.yml
 servers:
   '316272470220996611':
-    prefix: '='
+    prefix: '-'
   '550332212340326428':
     prefix: '-'
   default:
