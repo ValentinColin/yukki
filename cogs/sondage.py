@@ -7,11 +7,17 @@ from config import emoji
 from tools.format import fcite, fcode
 
 
-sep = " | "
+# sep = " | "
 
 
 class Sondage(commands.Cog):
     """Classe de Sondage"""
+
+    sep = " | "
+
+    def __init__(self, bot: commands.Bot):
+        """"""
+        self.bot = bot
 
     # ###### #
     # Events #
@@ -20,7 +26,7 @@ class Sondage(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Déclare être prêt."""
-        print("\tSondage's Cog is ready.")
+        print("    Sondage's Cog is ready.")
 
     # ######### #
     # Functions #
@@ -28,35 +34,26 @@ class Sondage(commands.Cog):
 
     @property
     def max_options(self):
+        """Renvoie le nombre d'emoji numéroté."""
         return len(emoji.numbers)
-
-    # @property
-    # def sep(self):
-    # 	return cls._sep
-
-    # @sep.setter
-    # def sep(self, value):
-    # 	cls._sep = value
 
     # ######### #
     # Commandes #
     # ######### #
 
-    @commands.command(
-        name="sondage",
-        aliases=["stawpoll"],
-        brief="Créer un sondage.",
-        help=(
-            "Crée un sondage de la forme:\n"
-            f"\t.sondage <ma question> ? time=<Durée (min)> {sep} "
-            f"<choix 1> {sep} <choix 2> [{sep} <choix 3> ...]"
-        ),
-    )
-    async def sondage(self, ctx: commands.Context, *, msg="help"):
-        """Créer un sondage."""
+    @commands.command(aliases=["strawpoll"], brief="Créer un sondage.")
+    async def sondage(self, ctx: commands.Context, *, msg: str = "help"):
+        """Créer un sondage de la forme:
+
+        <question> ? [time=<Durée> | ]<rep 1> | <rep 2> [| <rep 3> ...]
+
+        Par défault la durée du sondage est illimité.
+
+        Vous pouvez avoir un exemple de sondage avec la commande exemple
+        """
         if msg != "help":
             await ctx.message.delete()
-            options = msg.replace("? ", "?" + sep).split(sep)
+            options = msg.replace("? ", "?" + Sondage.sep).split(Sondage.sep)
             question = options.pop(0)
             time = [x for x in options if x.startswith("time=")]
             if len(time) > 0:
@@ -68,11 +65,11 @@ class Sondage(commands.Cog):
             if len(options) < 2:  # Si il y a moins de 2 arguments
                 raise commands.errors.MissingRequiredArgument
             if len(options) > self.max_options:  # Si il y a trop d'arguments
-                return await ctx.send(
-                    f"> {ctx.message.author.mention} >"
+                return await ctx.send(fcite(
+                    f"{ctx.message.author.mention} >"
                     f"{emoji.no_entry} Vous ne pouvez pas "
                     f"mettre plus de {self.max_options} réponses !"
-                )
+                ))
 
             to_react = []
             sondage_msg = f"**{question}**:\n\n"
@@ -90,8 +87,6 @@ class Sondage(commands.Cog):
                 await poll_msg.add_reaction(emote)
 
             # sleep + résultat
-            print("ligne: ", 87, ", options: ", options)
-            print("ligne: ", 88, ", time: ", time)
             if time is not None:
                 await asyncio.sleep(time * 60)
                 # On vas rechercher le message du sondage pour récupérer son nouvel état -> réctions ?
@@ -131,13 +126,20 @@ class Sondage(commands.Cog):
     async def exemple(self, ctx: commands.Context):
         """Affiche un exemple de sondage."""
         description = (
-            "Voici un petit exemple de la commande à écrire pour pour crée un sondage:\n"
+            "Voici un petit exemple de la commande à écrire pour pour crée un sondage:\n\n"
             "\t- Premier arguments: la question\n"
-            "\t- Deuxième arguments: le temps (optionnel)\n"
-            "\t- Les autres arguments sont les réponses possible au sondage\n\n"
+            "\t- Deuxième arguments (illimité par défaut): la durer du sondage\n"
+            "\t\t └>où les unités possible sont décrites ici:\n"
+            "\t\t\t └> minutes = min | minute | minutes |   |      \n"
+            "\t\t\t └> heures  =   h |  heure |  heures |   |  hour\n"
+            "\t\t\t └> jours   =   j |   jour |   jours | d |   day\n"
+            "\t\t\t └> mois    =   m |   mois |         |   | month\n"
+            "\t\t\t └> années  =   a |     an |     ans | y |  year\n"
+            "\t- Les autres arguments sont les réponses possibles au sondage\n\n"
         )
-        cmd = ".sondage"
-        question = "Quel âge avez-vous ?"
+        prefix = await self.bot.get_prefix(ctx.message)
+        cmd = f"{prefix}sondage "
+        question = "Quel âge avez-vous ? "
         options = [
             "time=1",
             "Moins de 18 ans",
@@ -145,8 +147,8 @@ class Sondage(commands.Cog):
             "Plus de 30 ans",
             "Plus de 50 ans",
         ]
-        txt = description + cmd + " " + question + " " + sep.join(options)
-        await ctx.send(fcode(txt))
+        exemple = cmd + question + Sondage.sep.join(options)
+        await ctx.send(fcode(description + exemple))
 
 
 def setup(bot: commands.Bot):

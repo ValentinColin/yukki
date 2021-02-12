@@ -1,15 +1,19 @@
 #!/usr/bin/env python3.9
+
 """Fichier principale du bot."""
+
 import os
+import socket
 import progressbar
 import subprocess
 import platform
-import socket
 import discord
+
 from discord.ext import commands
 from discord.http import Route
 
 from tools.access import access
+from tools.format import fcite, fmarkdown
 
 
 class Main(commands.Cog):
@@ -19,7 +23,6 @@ class Main(commands.Cog):
         """Create the main cog using the bot as argument."""
         self.bot = bot
         self.load_cogs()
-        self._init()
 
     # ###### #
     # Events #
@@ -28,7 +31,7 @@ class Main(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Déclare être prêt."""
-        print("\tMain's Cog is ready.")
+        print("    Main's Cog is ready.")
 
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
@@ -53,15 +56,6 @@ class Main(commands.Cog):
     # Functions #
     # ######### #
 
-    def _init(self):
-        """Initialise le bot discord.
-        Cette fonction définir les attributs:
-                - status
-                - game
-        """
-        self.status = discord.Status.online
-        self.game = discord.Game("with the API")
-
     def load_cogs(self):
         """Charge toutes les extensions."""
         cogs = [
@@ -80,98 +74,97 @@ class Main(commands.Cog):
     # Commandes #
     # ######### #
 
-    @commands.command(aliases=["start"], help="Initialise le bot discord.", hidden=True)
-    @access.admin
-    async def init(
-        self, ctx: commands.Context, status: discord.Status, *, jeu: str = None
-    ):
-        """Initialise le bot discord."""
-        if jeu is not None:
-            self.game = discord.Game(jeu)
-        await self.bot.change_presence(status=self.status, activity=self.game)
-
-    @commands.command(name="status", aliases=[], help="")
-    async def get_status(self, ctx, *args, **kwargs):
-        """Documentation of the function."""
-        pass
-
-    @commands.command(help="Charge une extension")
+    @commands.command()
     @access.admin
     async def load(self, ctx: commands.Context, extension):
         """Charge une extension."""
         self.bot.load_extension(f"cogs.{extension}")
-        await ctx.send(f"> L'extension **{extension}** à été chargée.")
+        await ctx.send(fcite(f"L'extension **{extension}** à été chargée."))
 
-    @commands.command(help="Charge toutes les extensions")
+    @commands.command()
     @access.admin
     async def load_all(self, ctx: commands.Context):
         """Charge toutes les extensions."""
         for filename in os.listdir("./cogs"):
             if filename.endswith(".py") and filename != "main.py":
                 self.bot.load_extension(f"cogs.{filename[:-3]}")
-        await ctx.send("> Tous les cogs ont été chargée.")
+        await ctx.send(fcite("Tous les cogs ont été chargée."))
 
-    @commands.command(help="Décharge une extension")
+    @commands.command()
     @access.admin
     async def unload(self, ctx: commands.Context, extension):
         """Décharge une extension."""
         self.bot.unload_extension(f"cogs.{extension}")
-        await ctx.send(f"> L'extension **{extension}** à été déchargée.")
+        await ctx.send(fcite(f"L'extension **{extension}** à été déchargée."))
 
-    @commands.command(help="Décharge toutes les extensions")
+    @commands.command()
     @access.admin
     async def unload_all(self, ctx: commands.Context):
         """Décharge toutes les extensions."""
         for filename in os.listdir("./cogs"):
             if filename.endswith(".py") and filename != "main.py":
                 self.bot.unload_extension(f"cogs.{filename[:-3]}")
-        await ctx.send("> Tous les cogs ont été déchargée.")
+        await ctx.send(fcite("Tous les cogs ont été déchargée."))
 
-    @commands.command(help="Recharge toutes les extensions")
+    @commands.command(name="reload")
     @access.admin
-    async def reload(self, ctx: commands.Context, extension):
+    async def _reload(self, ctx: commands.Context, extension):
         """Recharge une extension."""
         self.bot.reload_extension(f"cogs.{extension}")
-        await ctx.send(f"> L'extension **{extension}** à été rechargée.")
+        await ctx.send(fcite(f"L'extension **{extension}** à été rechargée."))
 
-    @commands.command(help="Recharge toutes les extensions")
+    @commands.command()
     @access.admin
     async def reload_all(self, ctx: commands.Context):
         """Recharge toutes les extensions."""
         for filename in os.listdir("./cogs"):
             if filename.endswith(".py") and filename != "main.py":
                 self.bot.reload_extension(f"cogs.{filename[:-3]}")
-        await ctx.send("> Tous les cogs ont été rechargée.")
+        await ctx.send(fcite("Tous les cogs ont été rechargée."))
 
-    @commands.command(
-        name="cogs", aliases=["extensions"], help="Affiche la liste des extensions"
-    )
+    @commands.group()
     async def cogs(self, ctx: commands.Context):
         """Affiche la liste des extensions."""
-        txt = "- cogs.main\n"
-        for ext in sorted(self.bot.extensions, reverse=True):
-            txt += f"- {ext}\n"
+        if ctx.invoked_subcommand is None:
+            txt = "- cogs.main\n"
+            for ext in sorted(self.bot.extensions, reverse=True):
+                txt += f"- {ext}\n"
+            await ctx.send(fmarkdown(txt))
+
+    @cogs.group()
+    async def dev(self, ctx: commands.Context):
+        """Affiche la liste des extensions en développement."""
+        dev_cogs = [
+            file[:-3]
+            for file in os.listdir("./cogs/dev")
+            if (file.endswith(".py"))
+        ]
+        txt = ""
+        for dev_cog in dev_cogs:
+            txt += f"- {dev_cog}\n"
         await ctx.send(fmarkdown(txt))
 
-    @commands.command(
-        name="id", help="Renvoie l'id de la personne qui exécute la commande"
-    )
+    @commands.command()
     async def id(self, ctx: commands.Context, target: discord.Member = None):
-        """Documentation of the function."""
+        """Affiche l'id du membre."""
         if target is None:
-            await ctx.send(f"> Ton id est: {ctx.author.id}")
+            await ctx.send(fcite(f"Ton id est: {ctx.author.id}"))
         else:
-            await ctx.send(f"> L'id de {target.name} est: {target.id}")
+            await ctx.send(fcite(f"L'id de {target.name} est: {target.id}"))
+
+    @commands.command(aliases=["guild", "serveur"])
+    async def server(self, ctx: commands.Context):
+        """Affiche l'id du server."""
+        await ctx.send(fcite(f"L'id du serveur est {ctx.guild.id}"))
 
     @commands.command(
-        name="is_owner",
         aliases=["est_propriétaire", "est_propio"],
-        brief="Vérifie s'il s'agit du propriétaire",
-        help="Vérifie si la target est le propriétaire du serveur. \
-						L'auteur de la commande est désigné comme target par défault.",
+        brief="Vérifie s'il s'agit du propriétaire"
     )
     async def is_owner(self, ctx: commands.Context, target: discord.Member = None):
-        """Documentation of the function."""
+        """Vérifie si la target est le propriétaire du serveur.
+		L'auteur de la commande est désigné comme target par défault.
+		"""
         if target is None:
             if ctx.guild.owner_id == ctx.author.id:
                 txt = "Vous êtes le propriétaire de ce serveur"
@@ -182,28 +175,23 @@ class Main(commands.Cog):
                 txt = f"{target.name} est le propriétaire de ce serveur"
             else:
                 txt = f"{target.name} n'êtes pas le propriétaire de ce serveur"
-        await ctx.send(txt)
+        await ctx.send(fcite(txt))
 
-    @commands.command(
-        name="owner",
-        aliases=["propriétaire", "propio"],
-        help="Affiche le nom du propriétaire de ce serveur",
-    )
-    async def name_of_owner(self, ctx: commands.Context):
-        """Affiche dans le channel le nom du propriétaire du serveur."""
+    @commands.command(aliases=["name_of_owner", "propriétaire", "propio"])
+    async def owner(self, ctx: commands.Context):
+        """Affiche le nom du propriétaire du serveur."""
         owner_name = await ctx.guild.fetch_member(ctx.guild.owner_id)
-        await ctx.send(f"Le propriétaire du serveur est {owner_name}")
+        await ctx.send(fcite(f"Le propriétaire du serveur est {owner_name}"))
 
-    @commands.command(
-        name="clear", aliases=["effacer"], help="Efface les <n> derniers messages"
-    )
+    @commands.command(aliases=["effacer"])
     async def clear(self, ctx, n: int = 1):
         """Efface les <n> derniers messages."""
         async for message in ctx.message.channel.history(limit=n + 1):
             await message.delete()
 
-    @commands.command(help="Affiche la latence")
+    @commands.command()
     async def ping(self, ctx: commands.Context):
+        """Affiche la latence."""
         ping_res = str(
             subprocess.Popen(
                 ["/sbin/ping", "-c1", "discordapp.com"], stdout=subprocess.PIPE
@@ -211,7 +199,6 @@ class Main(commands.Cog):
         )
         formated_res = [item for item in ping_res.split() if "time=" in item]
         result = str(formated_res[0])[5:]
-
         if float(result) >= 200:
             em = discord.Embed(
                 title="Ping : " + str(result) + "ms",
@@ -230,12 +217,12 @@ class Main(commands.Cog):
         else:
             em = discord.Embed(
                 title="Ping : " + str(result) + "ms",
-                description="Wow c'te vitesse de réaction, " "je m'épate moi-même !",
+                description="Wow c'te vitesse de réaction, je m'épate moi-même !",
                 colour=0x11FF11,
             )
             await ctx.send(embed=em)
 
-    @commands.command(help="Affiche les informations du bot")
+    @commands.command()
     async def info(self, ctx: commands.Context):
         """Affiches des informations sur le bot"""
         text = open("data/md/info.md").read()

@@ -22,7 +22,7 @@ class Jail(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Déclare être prêt."""
-        print("\tJail's Cog is ready.")
+        print("    Jail's Cog is ready.")
 
     # ######### #
     # Commandes #
@@ -36,14 +36,10 @@ class Jail(commands.Cog):
         """Renvoie le channel vocal de la prison."""
         return discord.utils.get(ctx.guild.voice_channels, name=Jail.channel_name)
 
-    @commands.command(
-        name="jail",
-        aliases=["emprisonner", "emprisonnement"],
-        help="Envoie une personne en prison",
-    )
+    @commands.command(aliases=["emprisonner", "emprisonnement"])
     @access.has_role("Policeman")
     async def jail(self, ctx: commands.Context, new_prisoner: discord.Member):
-        """Mettre une personne en prison."""
+        """Envoie une personne en prison."""
         jail_role = self.get_role(ctx)
         jail_voice_channel = self.get_voice_channel(ctx)
         try:
@@ -62,11 +58,7 @@ class Jail(commands.Cog):
         txt = f"{emoji.lock} {new_prisoner.mention}, vous avez été placé en prison ! {emoji.lock}"
         await ctx.send(fcite(txt))
 
-    @commands.command(
-        name="unjail",
-        aliases=["liberer", "liberation"],
-        help="Envoie une personne en prison",
-    )
+    @commands.command(aliases=["liberer", "liberation"])
     @access.has_role("Policeman")
     async def unjail(self, ctx: commands.Context, new_free_user: discord.Member):
         """Libérer une personne de prison."""
@@ -86,11 +78,7 @@ class Jail(commands.Cog):
         txt = f"{emoji.unlock} {new_free_user.mention}, vous avez été libéré de prison ! {emoji.unlock}"
         await ctx.send(fcite(txt))
 
-    @commands.command(
-        name="jail_visitor",
-        aliases=["voir_prisonnier"],
-        help="Voir la liste des prisonniers",
-    )
+    @commands.command(aliases=["voir_prisonnier"])
     async def jail_visitor(self, ctx: commands.Context):
         """Voir la liste des prisonniers."""
         list_prisoners = "\n- ".join(

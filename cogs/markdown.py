@@ -20,7 +20,7 @@ class Markdown(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Déclare être prêt."""
-        print("\tMarkdown's Cog is ready.")
+        print("    Markdown's Cog is ready.")
 
     # ######### #
     # Functions #
@@ -35,16 +35,14 @@ class Markdown(commands.Cog):
     # Commandes #
     # ######### #
 
-    @commands.group(name="todo", help="Affiche le fichier todo.md")
+    @commands.group()
     async def todo(self, ctx: commands.Context):
         """Affiche le fichier todo.md."""
         if ctx.invoked_subcommand is None:
             with open(path_todo_list, "r") as todo_list:
                 await ctx.send(fmarkdown(todo_list.read()))
 
-    @todo.command(
-        name="ajouter", aliases=["add"], help="Ajouter un élément à la todo_list"
-    )
+    @todo.command(aliases=["ajouter"])
     async def add(self, ctx: commands.Context, *, txt: str):
         """Ajouter un élément à la todo_list."""
         with open(path_todo_list, "a") as todo_list:
@@ -57,11 +55,7 @@ class Markdown(commands.Cog):
             todo_list.write(fmdcheck(txt_formatted, level=1))
         await ctx.send(fcite("Ajouter à la todo-list !"))
 
-    @todo.command(
-        name="retirer",
-        aliases=["remove", "supprimer"],
-        help="Supprime une ligne de la todo-list",
-    )
+    @todo.command(aliases=["retirer", "supprimer"])
     async def remove(self, ctx, *, multi_index: str):
         """Supprime une ligne de la todo-list."""
         with open(path_todo_list, "r+") as todo_list:
@@ -73,14 +67,13 @@ class Markdown(commands.Cog):
             todo_list.truncate()
         await ctx.send(fcite("Supprimer de la todo-list !"))
 
-    @todo.command(
-        name="insérer",
-        aliases=["inserer", "insert"],
-        brief="Insère un sous-tâche à la todo-list",
-        help="Insère un sous-tâche à la todo-list en donnant la tâche parente en paramètre.",
-    )
+    @todo.command(aliases=["inserer", "insérer"], brief="Insère un sous-tâche à la todo-list")
     async def insert(self, ctx: commands.Context, father_multi_index: str, *, txt: str):
-        """Insère une sous-tâche à la todo-list."""
+        """Insère un sous-tâche à la todo-list en donnant le multi_index parent.
+
+        exemple:
+            .todo insert 1.2.3 Je ne doit pas oublié de mettre le lait avant les céréales
+        """
         await ctx.send(fcite("Not worked !"))
         return None
         with open(path_todo_list, "r+") as todo_list:
@@ -109,11 +102,7 @@ class Markdown(commands.Cog):
                         )
                         todo_list.write(fmdcheck(txt_formatted, level=lvl))
 
-    @todo.command(
-        name="valider",
-        aliases=["fini", "check"],
-        help="Coche une checkbox dans la todo-add",
-    )
+    @todo.command(aliases=["valider"], brief="Not implemented yet.")
     async def check(self, ctx: commands.Context, multi_index: MultiIndex):
         """Coche une checkbox dans la todo-list."""
         await ctx.send("Not implemented yet")

@@ -1,6 +1,6 @@
 🛠️ **Développement** :
 └> Valentin Colin: [github](https://github.com/ValentinColin)
-	└> Marc Partensky: [github](https://github.com/ValentinColin)
+└> Marc Partensky: [github](https://github.com/MarcPartensky)
 └> Langage : [Python3](http://www.python.org/)
 └> Api : [discord.py {0}](https://github.com/Rapptz/discord.py)
 └> Discord Api : [{1}]({1})
@@ -11,8 +11,8 @@
 └> Version python: {4}
 
 ☎️ **Contact** :
-└> :DiscordLogoColor: : Call me Valou ╰(\*°▽°\*)╯#5528
+└> :DiscordLogo: : Call me Valou ╰(\*°▽°\*)╯#5528
 └> 📫 : [valentin.colin78@gmail.com](mailto:valentin.colin78@gmail.com)
 
-:DiscordLogoColor: Serveur :
+:DiscordLogo: Serveur:
 └> No need to know :slight_smile:

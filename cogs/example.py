@@ -27,7 +27,7 @@ class Example(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Déclare être prêt."""
-        print("\tExample's Cog is ready.")
+        print("    Example's Cog is ready.")
 
     # ######### #
     # Commandes #
@@ -36,7 +36,6 @@ class Example(commands.Cog):
     def is_me():
         def predicate(ctx):
             return ctx.message.author.id == my_id
-
         return commands.check(predicate)
 
     @commands.command()

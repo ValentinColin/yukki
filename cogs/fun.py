@@ -1,17 +1,17 @@
 #!/usr/bin/env python3.9
 """"""
-import urllib.request  # bitcoin price
-import requests  # cat
-import asyncio  # ethylotest
-import random  # joke, ethylotest
-import json  # joke
+import urllib.request   # bitcoin price
+import requests         # cat
+import asyncio          # ethylotest
+import random           # joke, ethylotest
+import json             # joke
 import discord
 from discord.ext import commands
 from tools.format import fcite
 
 
 class Fun(commands.Cog):
-    """Classe """
+    """Classe du Fun LOL."""
 
     # ###### #
     # Events #
@@ -20,17 +20,17 @@ class Fun(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Déclare être prêt."""
-        print("\tFun's Cog is ready.")
+        print("    Fun's Cog is ready.")
 
     # ######### #
     # Commandes #
     # ######### #
 
-    @commands.command(aliases=["dire"], help="Faire dire quelque chose au bot")
+    @commands.command(aliases=["dire"])
     async def say(
         self, ctx: commands.Context, *, txt: str = "Donne moi un texte à dire."
     ):
-        """Fais dire un txt au bot."""
+        """Fais dire un texte au bot."""
         await ctx.send(fcite(txt))
 
     @commands.command()
@@ -110,9 +110,9 @@ class Fun(commands.Cog):
         await asyncio.sleep(1)
         await ctx.send(fcite(":police_car: " + result_p))
 
-    @commands.command(name="cat", aliases=["randomcat"])
+    @commands.command(aliases=["cat", "chat"])
     async def randomcat(self, ctx):
-        """Display a random cat"""
+        """Affiche un mignon petit chat."""
         r = requests.get("http://aws.random.cat/meow")
         cat_url = str(r.json()["file"])
         embed = discord.Embed(
@@ -124,6 +124,15 @@ class Fun(commands.Cog):
         embed.set_author(name="Random.cat", url="https://random.cat/")
         await ctx.send(embed=embed)
         await ctx.send(f"{cat_url}")
+
+    @commands.command()
+    async def rip(self, ctx: commands.Context, user: discord.Member = None):
+        """Rip Machin."""
+        url="https://giphy.com/gifs/ghana-dancing-pallbearers-coffin-Wr2747CnxwBSqyK6xt"
+        if user == None:
+            await ctx.send(f"{url}")
+        else:
+            await ctx.send(f"{user.mention}\n{url}")
 
 
 def setup(bot: commands.Bot):

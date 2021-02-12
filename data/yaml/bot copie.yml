@@ -1,0 +1,26 @@
+bot:
+    version: "1.2.0"
+    name: Yukki
+    statut:
+        game: "bifler maxime."
+        listening: "mon Maître ! (use {prefix}help)"
+        watching: "une licorne."
+    description: "Je suis le bot du Maître Valentin !"
+    markdown:
+        todo: TODO.md
+        help: help.md
+        info: info.md
+    json:
+        joke: joke.md
+    yaml:
+        joke: joke.yml
+    id_masters:
+        - 283649186446966784 # Call_me_Valou
+        - 478552571510915072 # Marc Partensky
+servers:
+    "template":
+        prefix: "."
+    "316272470220996611": # Valou
+        prefix: "."
+    "550332212340326428": # Serveur Qualitatif
+        prefix: "-"

@@ -1,10 +1,12 @@
 #!/usr/bin/env python3.9
 """Gestion des droits d'exécution des commandes du bot discord."""
+import functools  # @functools.wraps(func) est un décorateurs à mettre sur new_func() dans un décorateur
 import inspect
 import discord
 from discord.ext import commands
 from config import emoji
-from config.config import masters_id
+from config.config import my_id, masters_id
+from tools.format import fcite, fmarkdown
 
 
 class Access:
@@ -35,19 +37,36 @@ class Access:
     # Decorateurs #
     # ########### #
 
+    def me(self, func):
+        """Impose la condition d'être admin pour exécuter une commande."""
+
+        @functools.wraps(func)
+        async def decorated(obj, ctx: commands.Context, *args, **kwargs):
+            if ctx.author.id == my_id:
+                return await func(obj, ctx, *args, **kwargs)
+            else:
+                await ctx.send(
+                    fcite(self.rejection +
+                          " Il s'agit d'une commande administrateur.")
+                )
+
+        decorated.__doc__ = "[Créateur] " + func.__doc__
+        decorated.__signature__ = inspect.signature(func)
+        return decorated
+
     def admin(self, func):
         """Impose la condition d'être admin pour exécuter une commande."""
 
+        @functools.wraps(func)
         async def decorated(obj, ctx: commands.Context, *args, **kwargs):
             if ctx.author.id in masters_id:
                 return await func(obj, ctx, *args, **kwargs)
             else:
                 await ctx.send(
-                    "> " + self.rejection + " Il s'agit d'une commande administrateur."
+                    fcite(self.rejection + " Il s'agit d'une commande administrateur.")
                 )
 
-        decorated.__doc__ = self.admin_emoji + func.__doc__
-        decorated.__name__ = func.__name__
+        decorated.__doc__ = self.admin_emoji + " " + func.__doc__
         decorated.__signature__ = inspect.signature(func)
         return decorated
 
@@ -55,42 +74,31 @@ class Access:
         commands.has_role(role).__doc__
         return commands.has_role(role)
 
-    def has_min_role(self, roles_authorized, nb_min: int = 1):
+    def has_roles(self, roles_authorized: list, nb_min: int = 1):
         """Renvoie un décorateur vérifiant que la personne possède au moins nb_min rôles."""
 
         def deco(func):
             """Limite l'accès à la fonction."""
 
+            @functools.wraps(func)
             async def decorated(obj, ctx: commands.Context, *args, **kwargs):
                 print("ctx.author.roles: ", ctx.author.roles)
                 print("roles_authorized: ", roles_authorized)
-                if (
-                    len(
-                        self.intersection(
-                            [r.name for r in ctx.author.roles], roles_authorized
-                        )
-                    )
-                    >= nb_min
-                ):
+                author_roles = [r.name for r in ctx.author.roles]
+                if len(self.intersection(author_roles, roles_authorized)) >= nb_min:
                     return await func(obj, ctx, *args, **kwargs)
                 else:
-                    rejection = (
-                        "```md\n"
-                        + self.rejection
+                    txt = (
+                        self.rejection
                         + f" Il s'agit d'une commande réservée aux personnes \
 						possédant au moins {nb_min} de ces rôles: \n"
                     )
-                    # for r in roles_authorized:
-                    # 	rejection += '\n- ' + str(r)
-                    rejection += "\n- ".join([""] + [str(r) for r in roles_authorized])
-                    await ctx.send(rejection + "\n```")
+                    txt += "\n- ".join([""] + [str(r) for r in roles_authorized])
+                    await ctx.send(fmarkdown(txt))
 
-            decorated.__doc__ = func.__doc__
-            decorated.__name__ = func.__name__
             decorated.__signature__ = inspect.signature(func)
             return decorated
 
         return deco
-
 
 access = Access(masters_id)

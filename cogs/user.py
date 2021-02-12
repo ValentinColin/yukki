@@ -14,15 +14,15 @@ class User(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Déclare être prêt."""
-        print("\tUser's Cog is ready.")
+        print("    User's Cog is ready.")
 
     # ######### #
     # Commandes #
     # ######### #
 
-    @commands.command(help="Affiche l'avatar d'un membre")
+    @commands.command()
     async def avatar(self, ctx: commands.Context, target: discord.Member = None):
-        """Récuperer l'avatar de ..."""
+        """Affiche l'avatar d'un membre."""
         if target is None:
             target = ctx.message.author
         url_avatar = target.avatar_url_as()
@@ -33,13 +33,11 @@ class User(commands.Cog):
         embed.set_thumbnail(url=url_avatar)
         await ctx.send(embed=embed)
 
-    @commands.command(
-        brief="Poke quelqu'un",
-        help="Poke quelqu'un. Anonymement ou non"
-        " écrivans n'importe toi derrière le tag de la personne.",
-    )
+    @commands.command(brief="Poke quelqu'un")
     async def poke(self, ctx: commands.Context, target: discord.Member, anonymous=None):
-        """Poke quelqu'un. Anonymement ou non."""
+        """Poke quelqu'un. Anonymement ou non.
+        Écrire n'importe toi derrière le tag de la personne pour être anonyme.
+        """
         await ctx.message.delete()
         if anonymous:
             await ctx.send(f":clap: Hey {target.mention} tu t'es fait poker !")
@@ -48,6 +46,11 @@ class User(commands.Cog):
                 f":clap: Hey {target.mention} tu t'es fait poker par "
                 f"{ctx.message.author} !"
             )
+
+    @commands.command()
+    async def move(self, ctx: commands.Context, user: discord.Member, channel: discord.VoiceChannel):
+        """Documentation of the function."""
+        pass
 
 
 def setup(bot: commands.Bot):

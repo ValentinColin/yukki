@@ -1,0 +1,26 @@
+bot:
+  description: "Je suis le bot du Ma\xEEtre Valentin !"
+  json:
+    joke: joke.json
+  markdown:
+    help: help.md
+    info: info.md
+    todo: TODO.md
+  masters_id:
+  - 283649186446966784
+  - 478552571510915072
+  name: Yukki
+  status:
+    game: bifler maxime.
+    listening: "mon Ma\xEEtre ! (use {prefix}help)"
+    watching: une licorne.
+  version: 1.2.0
+  yaml:
+    joke: joke.yml
+servers:
+  '316272470220996611':
+    prefix: '='
+  '550332212340326428':
+    prefix: '-'
+  default:
+    prefix: .
