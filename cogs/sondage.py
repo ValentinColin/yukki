@@ -141,7 +141,7 @@ class Sondage(commands.Cog):
         cmd = f"{prefix}sondage "
         question = "Quel âge avez-vous ? "
         options = [
-            "time=1",
+            "time=1h",
             "Moins de 18 ans",
             "Plus de 18 ans",
             "Plus de 30 ans",
