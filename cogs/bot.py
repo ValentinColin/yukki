@@ -5,6 +5,7 @@ import config.config as cfg
 import discord
 from discord.ext import commands
 from config import emoji
+from config.config import PREFIX
 
 from tools.access import access
 from tools.format import fmarkdown, fcite
@@ -12,6 +13,13 @@ from tools.format import fmarkdown, fcite
 
 class Robot(commands.Cog):
     """Classe principale de gestion du bot."""
+
+    activity_type = {
+        "listening": discord.ActivityType.listening,
+        "playing":   discord.ActivityType.playing,
+        "watching":  discord.ActivityType.watching,
+        "competing": discord.ActivityType.competing
+    }
 
     def __init__(self, bot: commands.Bot):
         """Create the main cog using the bot as argument."""
@@ -59,31 +67,29 @@ class Robot(commands.Cog):
         with open("data/yaml/bot.yml", "w") as f:
             yaml.dump(data, f)
 
-    def get_status(self, activity_name: str) -> discord.Activity:
-        """Renvoie l'objet d'activité correspondante avec les infos dans la bdd.
+    def get_status(self, activity_name: str, name: str = None) -> discord.Activity:
+        """Renvoie l'activité discord correspondante.
+        Par défaut un nom d'activité est donnée.
+        
         Attention: ce n'est pas le statut en cours du bot.
         Activités possible:
-            - game
             - listening
+            - playing
             - watching
+            - competing
         """
-        with open("data/yaml/bot.yml") as f:
-            data = yaml.load(f, Loader=yaml.FullLoader)
-        name = data["bot"]["status"][activity_name]
-        if "{{prefix}}" in name:
-            prefix = data["servers"]["default"]["prefix"]
-            name = name.format(prefix=prefix)
-        if activity_name == "listening":
-            activity = discord.Activity(type=discord.ActivityType.listening, name=name)
-        elif activity_name == "game":
-            activity = discord.Activity(type=discord.ActivityType.game, name=name)
-        elif activity_name == "watching":
-            activity = discord.Activity(type=discord.ActivityType.watching, name=name)
-        else:
-            raise ValueError(
-                f"{activity_name} not accepted. Only listening, game, watching."
+        if name is None: # on en prend un par défaut
+            with open("data/yaml/bot.yml") as f:
+                data = yaml.load(f, Loader=yaml.FullLoader)
+            name = data["bot"]["status"][activity_name]
+            if "{{prefix}}" in name:
+                name = name.format(prefix=PREFIX)
+        if activity_name in self.activity_type:
+            return discord.Activity(
+                type=self.activity_type[activity_name], name=name
             )
-        return activity
+        else:
+            raise ValueError(f"{activity_name} not accepted.")
 
     # ######### #
     # Commandes #
@@ -100,6 +106,42 @@ class Robot(commands.Cog):
             await self.bot.change_presence()
             await ctx.send(f"Le prefix à été changer en: `{prefix}`")
 
+    @commands.command(aliases=["activité"])
+    @access.admin
+    async def activity(self, ctx: commands.Context, activity_name: str = None, name: str = None):
+        """Définie une activité.
+
+        Nom d'activité autorisé:
+            - listening
+            - game
+            - watching
+            - competing
+        """
+        if name is None:
+            if activity_name in ["listening", "game", "watching", "competing"]:
+                activity = self.get_status(activity_name)
+                await self.bot.change_presence(activity=activity)
+                await ctx.send(fcite("done"), delete_after=2)
+            elif activity_name is None:
+                await self.bot.change_presence() # reset le statut
+        else:
+            await ctx.send(
+                f"L'activité `{activity_name}`n'est pas accepter, "
+                f"voir l'aide pour plus d'informations."
+            )
+
+    @commands.command()
+    @access.admin
+    async def status(self, ctx: commands.Context, *, name: str = None):
+        """Définie une activité personalisé."""
+        if name is not None:
+            # activity = discord.CustomActivity(name=name, emoji=emoji.fire)
+            activity = discord.Activity(name=name, type=discord.ActivityType.competing)
+            await self.bot.change_presence(activity=activity)
+            await ctx.send(fcite("done"), delete_after=2)
+        else:
+            await self.bot.change_presence()  # reset le statut
+    
     @commands.command(aliases=["jeu"])
     @access.admin
     async def game(self, ctx: commands.Context, *, jeu: str):
@@ -111,23 +153,6 @@ class Robot(commands.Cog):
         else:
             game = discord.Game(jeu)
         await self.bot.change_presence(activity=game)
-
-    @commands.command(aliases=["activité"])
-    @access.admin
-    async def activity(self, ctx: commands.Context, activity_name: str = None):
-        """Définie une activité.
-        Nom d'activité autorisé:
-            - listening
-            - game
-            - watching"""
-        if activity_name is not None:
-            activity = self.get_status(activity_name)
-            await self.bot.change_presence(activity=activity)
-        else:
-            await ctx.send(
-                f"L'activité `{activity_name}`n'est pas accepter, "
-                f"voir l'aide pour plus d'informations."
-            )
 
 
 def setup(bot: commands.Bot):
