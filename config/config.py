@@ -20,6 +20,7 @@ def get_prefix(bot, msg):
     return prefix
 
 my_id = 283649186446966784  # Call_me_Valou
+marc_id = 478552571510915072 # Marc Partensky
 masters_id = [my_id]
 
 path_todo_list = "data/md/TODO.md"
