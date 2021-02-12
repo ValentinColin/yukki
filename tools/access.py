@@ -46,8 +46,7 @@ class Access:
                 return await func(obj, ctx, *args, **kwargs)
             else:
                 await ctx.send(
-                    fcite(self.rejection +
-                          " Il s'agit d'une commande administrateur.")
+                    fcite("Va te faire foutre ! Tu n'es pas mon maître !")
                 )
 
         decorated.__doc__ = "[Créateur] " + func.__doc__
