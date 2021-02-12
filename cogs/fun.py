@@ -7,7 +7,9 @@ import random           # joke, ethylotest
 import json             # joke
 import discord
 from discord.ext import commands
+from tools.access import access
 from tools.format import fcite
+from config import emoji
 
 
 class Fun(commands.Cog):
@@ -34,6 +36,13 @@ class Fun(commands.Cog):
         await ctx.send(fcite(txt))
 
     @commands.command()
+    @access.me
+    async def only_me(self, ctx: commands.Context):
+        "Only you !"
+        await ctx.send(fcite("Only you!"))
+        await ctx.message.add_reaction(emoji.love)
+
+    @commands.command()
     async def btcprice(self, ctx: commands.Context):
         """Le prix du BTC"""
         loading = await ctx.send("_réfléchis..._")
@@ -41,9 +50,9 @@ class Fun(commands.Cog):
             url = urllib.request.urlopen("https://blockchain.info/fr/ticker")
             btc = json.loads(url.read().decode())
         except KeyError:
-            btc = 1
+            btc = None
 
-        if btc == 1:
+        if btc == None:
             await loading.edit(
                 content="Impossible d'accèder à l'API"
                 " blockchain.info, veuillez réessayer"
