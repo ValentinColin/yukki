@@ -6,6 +6,7 @@ import json
 import discord
 from discord.ext import commands
 from config.config import path_todo_list, path_todo_json
+from tools.access import access
 from tools.format import fcite, fmarkdown, fmdcheck
 from tools.multi_index import MultiIndex
 
@@ -26,6 +27,7 @@ class Markdown(commands.Cog):
     # Functions #
     # ######### #
 
+    @staticmethod
     def read_todo_from_json(path_json: str):
         """Lire un json de todo."""
         with open(path_json) as json_data:
@@ -43,6 +45,7 @@ class Markdown(commands.Cog):
                 await ctx.send(fmarkdown(todo_list.read()))
 
     @todo.command(aliases=["ajouter"])
+    @access.me
     async def add(self, ctx: commands.Context, *, txt: str):
         """Ajouter un élément à la todo_list."""
         with open(path_todo_list, "a") as todo_list:
@@ -56,6 +59,7 @@ class Markdown(commands.Cog):
         await ctx.send(fcite("Ajouter à la todo-list !"))
 
     @todo.command(aliases=["retirer", "supprimer"])
+    @access.me
     async def remove(self, ctx, *, multi_index: str):
         """Supprime une ligne de la todo-list."""
         with open(path_todo_list, "r+") as todo_list:
@@ -67,9 +71,10 @@ class Markdown(commands.Cog):
             todo_list.truncate()
         await ctx.send(fcite("Supprimer de la todo-list !"))
 
-    @todo.command(aliases=["inserer", "insérer"], brief="Insère un sous-tâche à la todo-list")
+    @todo.command(aliases=["inserer", "insérer"])
+    @access.me
     async def insert(self, ctx: commands.Context, father_multi_index: str, *, txt: str):
-        """Insère un sous-tâche à la todo-list en donnant le multi_index parent.
+        """Insère un sous-tâche à la todo-list.
 
         exemple:
             .todo insert 1.2.3 Je ne doit pas oublié de mettre le lait avant les céréales
@@ -102,7 +107,8 @@ class Markdown(commands.Cog):
                         )
                         todo_list.write(fmdcheck(txt_formatted, level=lvl))
 
-    @todo.command(aliases=["valider"], brief="Not implemented yet.")
+    @todo.command(aliases=["valider"])
+    @access.me
     async def check(self, ctx: commands.Context, multi_index: MultiIndex):
         """Coche une checkbox dans la todo-list."""
         await ctx.send("Not implemented yet")
