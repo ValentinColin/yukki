@@ -1,24 +1,18 @@
 #!/usr/bin/env python3.9
 """An example file for test the discord API."""
-# import urllib.request
-# import subprocess
-# import platform
-# import requests
-# import asyncio
-# import random
-# import socket
-# import json
-# import discord
+import discord
 from discord.ext import commands
-
-# from discord.http import Route
-
 from config.config import my_id
+from config import emoji
 from tools.format import fcite
 
 
-class Example(commands.Cog):
-    """"""
+class Test(commands.Cog):
+    """Classe de test."""
+
+    def __init__(self, bot: commands.Bot):
+        """Create the main cog using the bot as argument."""
+        self.bot = bot
 
     # ###### #
     # Events #
@@ -33,22 +27,13 @@ class Example(commands.Cog):
     # Commandes #
     # ######### #
 
-    def is_me():
-        def predicate(ctx):
-            return ctx.message.author.id == my_id
-        return commands.check(predicate)
-
-    @commands.command()
-    @is_me()
-    async def only_me(ctx):
-        await ctx.send("Only you!")
-
-    @commands.command(name="test", help="Commande de test/brouillon", hidden=True)
+    @commands.command(hidden=True)
     async def test(self, ctx: commands.Context, *args, **kwargs):
         """Commande de test/brouillon."""
         await ctx.send("Cette commande ne fait rien du tout.")
 
 
+
 def setup(bot: commands.Bot):
     """Setup the bot for the main cog."""
-    bot.add_cog(Example(bot))
+    bot.add_cog(Test(bot))
