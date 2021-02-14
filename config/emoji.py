@@ -45,7 +45,7 @@ adn = "🧬"
 virus = "🦠"
 mask = "😷"
 little = "🤏"
-
+poop = "💩"
 trash = "🗑️"
 scissors = "✂️"
 
