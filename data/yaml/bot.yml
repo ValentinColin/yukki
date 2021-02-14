@@ -1,27 +1,59 @@
 bot:
-    description: "Je suis le bot du Ma\xEEtre Valentin !"
-    json:
-        joke: joke.json
-    markdown:
-        help: help.md
-        info: info.md
-        todo: TODO.md
-    masters_id:
-    - 283649186446966784
-    - 478552571510915072
-    name: Yukki
-    status:
-        game: bifler maxime.
-        listening: "mon Ma\xEEtre !"
-        watching: une licorne.
-        competing: une partouze.
-    version: 1.3.0
-    yaml:
-        joke: null
+  description: "Je suis le bot du Ma\xEEtre Valentin !"
+  json:
+    joke: joke.json
+  markdown:
+    help: help.md
+    info: info.md
+    todo: TODO.md
+  masters_id:
+  - 283649186446966784
+  - 478552571510915072
+  my_id: 283649186446966784
+  name: Yukki
+  status:
+    competing: une partouze.
+    game: bifler maxime.
+    listening: "mon Ma\xEEtre !"
+    watching: une licorne.
+  version: 1.3.0
+  yaml:
+    joke: null
+kiss:
+- https://tenor.com/view/gros-bisous-gif-13435011
+- https://tenor.com/view/besos-gif-8760472
+- https://tenor.com/view/gros-bisous-gif-13435008
+- https://tenor.com/view/loveyou-ted-teddy-bear-bear-seth-mac-farlane-gif-5411337
+links:
+- www.google.com:
+    author_id: 283649186446966784
+    date: null
+- '283649186446966784':
+    url: www.google.com
 servers:
-    '316272470220996611':
-        prefix: '.'
-    '550332212340326428':
-        prefix: '-'
-    default:
-        prefix: '.'
+  '316272470220996611':
+    prefix: .
+    prisoners:
+      prisoner_id:
+      - "liste d'id des roles avant la prison"
+  '550332212340326428':
+    prefix: '-'
+    prisoners:
+      '478552571510915072':
+      - 550332212340326428
+      - 735913019644575754
+      - 731471433653420082
+      - 755068234939498517
+      - 706205165803274332
+      - 703653136761356318
+      - 703653329254744107
+      - 707226106079740014
+      - 703368829874733176
+      - 703368387731914772
+      prisoner_id:
+      - "liste d'id des roles avant la prison"
+  default:
+    prefix: .
+    prisoners:
+      prisoner_id:
+      - "liste d'id des roles avant la prison"
