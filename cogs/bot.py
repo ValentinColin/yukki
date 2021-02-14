@@ -1,5 +1,7 @@
 #!/usr/bin/env python3.9
+
 """Fichier de gestion du bot/robot."""
+
 import yaml
 import config.config as cfg
 import discord
@@ -17,6 +19,7 @@ class Robot(commands.Cog):
     activity_type = {
         "listening": discord.ActivityType.listening,
         "playing":   discord.ActivityType.playing,
+        "game":      discord.ActivityType.playing,
         "watching":  discord.ActivityType.watching,
         "competing": discord.ActivityType.competing
     }
@@ -70,14 +73,16 @@ class Robot(commands.Cog):
     def get_status(self, activity_name: str, name: str = None) -> discord.Activity:
         """Renvoie l'activité discord correspondante.
         Par défaut un nom d'activité est donnée.
-        
+
         Attention: ce n'est pas le statut en cours du bot.
         Activités possible:
             - listening
-            - playing
+            - playing / game
             - watching
             - competing
         """
+        if activity_name == "playing":
+            activity_name = "game"
         if name is None: # on en prend un par défaut
             with open("data/yaml/bot.yml") as f:
                 data = yaml.load(f, Loader=yaml.FullLoader)
@@ -109,19 +114,18 @@ class Robot(commands.Cog):
     @commands.command(aliases=["activité"])
     @access.admin
     async def activity(self, ctx: commands.Context, activity_name: str = None, name: str = None):
-        """Définie une activité.
+        """Modifie l'activité du bot.
 
         Nom d'activité autorisé:
             - listening
-            - game
+            - playing / game
             - watching
             - competing
         """
         if name is None:
-            if activity_name in ["listening", "game", "watching", "competing"]:
+            if activity_name in self.activity_type:
                 activity = self.get_status(activity_name)
                 await self.bot.change_presence(activity=activity)
-                await ctx.send(fcite("done"), delete_after=2)
             elif activity_name is None:
                 await self.bot.change_presence() # reset le statut
         else:
@@ -129,30 +133,16 @@ class Robot(commands.Cog):
                 f"L'activité `{activity_name}`n'est pas accepter, "
                 f"voir l'aide pour plus d'informations."
             )
-
-    @commands.command()
-    @access.admin
-    async def status(self, ctx: commands.Context, *, name: str = None):
-        """Définie une activité personalisé."""
-        if name is not None:
-            # activity = discord.CustomActivity(name=name, emoji=emoji.fire)
-            activity = discord.Activity(name=name, type=discord.ActivityType.competing)
-            await self.bot.change_presence(activity=activity)
-            await ctx.send(fcite("done"), delete_after=2)
-        else:
-            await self.bot.change_presence()  # reset le statut
     
     @commands.command(aliases=["jeu"])
     @access.admin
-    async def game(self, ctx: commands.Context, *, jeu: str):
+    async def game(self, ctx: commands.Context, *, game: str):
         """Initialise le jeu du bot."""
-        if jeu is None:
-            game = self.get_status(
-                activity_name="game"
-            )  # Renvoie une activité de type game, est-ce pareil que discord.Game?
+        if game is None:
+            activity = self.get_status(activity_name="game")
         else:
-            game = discord.Game(jeu)
-        await self.bot.change_presence(activity=game)
+            activity = discord.Game(game)
+        await self.bot.change_presence(activity=activity)
 
 
 def setup(bot: commands.Bot):
