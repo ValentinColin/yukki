@@ -97,9 +97,9 @@ class MultiIndex:
 
     def is_son_of(self, father) -> bool:
         """Vérifie si 'father' est le multi_index père (direct) de self."""
-        if (len(father) - 1) == len(self):
+        if (len(self) - 1) == len(father):
             for index in range(len(father)):
-                if child[index] != self[index]:
+                if father[index] != self[index]:
                     result = False
                     break
         else:
@@ -109,9 +109,9 @@ class MultiIndex:
     def is_father_of(self, son) -> bool:
         """Vérifie si 'son' le multi_index fils (direct) de self."""
         result = True
-        if len(sons) == (len(self) - 1):
+        if (len(son) - 1) == len(self):
             for index in range(len(self)):
-                if child[index] != self[index]:
+                if son[index] != self[index]:
                     result = False
                     break
         else:
@@ -183,29 +183,6 @@ class MultiIndex:
             if child[index] != self[index]:
                 return False
         return True
-
-    def is_son_of(self, father) -> bool:
-        """Vérifie si 'father' est le multi_index père (direct) de self."""
-        if (len(father) - 1) == len(self):
-            for index in range(len(father)):
-                if child[index] != self[index]:
-                    result = False
-                    break
-        else:
-            result = False
-        return result
-
-    def is_father_of(self, son) -> bool:
-        """Vérifie si 'son' le multi_index fils (direct) de self."""
-        result = True
-        if len(sons) == (len(self) - 1):
-            for index in range(len(self)):
-                if child[index] != self[index]:
-                    result = False
-                    break
-        else:
-            result = False
-        return result
 
     def __str__(self) -> str:
         """Convertion en string."""
