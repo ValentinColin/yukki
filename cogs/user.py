@@ -110,9 +110,9 @@ class User(commands.Cog):
     @access.admin
     async def unmute(self, ctx: commands.Context, *users: discord.Member):
         """Déplace le membre vers un salon vocal."""
-        for user in users:
-        await user.edit(mute=False)
         await ctx.message.delete()
+        for user in users:
+            await user.edit(mute=False)
 
     @commands.command()
     @access.admin
