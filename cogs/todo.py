@@ -1,5 +1,7 @@
 #!/usr/bin/env python3.9
-"""Fichiers d'affichage de fichiers markdown."""
+
+"""Fichiers d'affichage des fichiers Todo."""
+
 import os
 import re
 import json
@@ -11,8 +13,8 @@ from tools.format import fcite, fmarkdown, fmdcheck
 from tools.multi_index import MultiIndex
 
 
-class Markdown(commands.Cog):
-    """Classe de gestion des fichiers markdown sur discord."""
+class Todo(commands.Cog):
+    """Classe de gestion des fichiers Todo sur discord."""
 
     # ###### #
     # Events #
@@ -21,7 +23,7 @@ class Markdown(commands.Cog):
     @commands.Cog.listener()
     async def on_ready(self):
         """Déclare être prêt."""
-        print("    Markdown's Cog is ready.")
+        print("    Todo's Cog is ready.")
 
     # ######### #
     # Functions #
@@ -116,4 +118,4 @@ class Markdown(commands.Cog):
 
 def setup(bot: commands.Bot):
     """Setup the bot for the main cog."""
-    bot.add_cog(Markdown(bot))
+    bot.add_cog(Todo(bot))
