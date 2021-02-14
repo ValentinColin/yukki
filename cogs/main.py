@@ -144,25 +144,9 @@ class Main(commands.Cog):
             txt += f"- {dev_cog}\n"
         await ctx.send(fmarkdown(txt))
 
-    @commands.command()
-    async def id(self, ctx: commands.Context, target: discord.Member = None):
-        """Affiche l'id du membre."""
-        if target is None:
-            await ctx.send(fcite(f"Ton id est: {ctx.author.id}"))
-        else:
-            await ctx.send(fcite(f"L'id de {target.name} est: {target.id}"))
-
-    @commands.command(aliases=["guild", "serveur"])
-    async def server(self, ctx: commands.Context):
-        """Affiche l'id du server."""
-        await ctx.send(fcite(f"L'id du serveur est {ctx.guild.id}"))
-
-    @commands.command(
-        aliases=["est_propriétaire", "est_propio"],
-        brief="Vérifie s'il s'agit du propriétaire"
-    )
+    @commands.command(aliases=["est_propriétaire", "est_propio"])
     async def is_owner(self, ctx: commands.Context, target: discord.Member = None):
-        """Vérifie si la target est le propriétaire du serveur.
+        """Vérifie si cette personne est propriétaire du serveur.
 		L'auteur de la commande est désigné comme target par défault.
 		"""
         if target is None:
@@ -182,6 +166,42 @@ class Main(commands.Cog):
         """Affiche le nom du propriétaire du serveur."""
         owner_name = await ctx.guild.fetch_member(ctx.guild.owner_id)
         await ctx.send(fcite(f"Le propriétaire du serveur est {owner_name}"))
+
+    @commands.command()
+    async def id(self, ctx: commands.Context, target: discord.Member = None):
+        """Affiche l'id du membre."""
+        if target is None:
+            await ctx.send(fcite(f"Ton id est: {ctx.author.id}"))
+        else:
+            await ctx.send(fcite(f"L'id de {target.name} est: {target.id}"))
+
+    @commands.command(aliases=["guild", "serveur"])
+    async def server(self, ctx: commands.Context):
+        """Affiche l'id du server."""
+        await ctx.send(fcite(f"L'id du serveur est {ctx.guild.id}"))
+
+    @commands.command()
+    async def info(self, ctx: commands.Context):
+        """Affiche les informations générales de l'application."""
+        text = open("data/md/info.md").read()
+        emoji_os = (
+            ":AppleOldLogo:" if str(
+                platform.system()) == "Darwin" else "LinuxLogo"
+        )
+        os_info = str(platform.system()) + " / " + str(platform.release())
+        em = discord.Embed(
+            title="Informations sur Yukki",
+            description=text.format(
+                discord.__version__,
+                Route.BASE,
+                socket.gethostname(),
+                os_info,
+                platform.python_version(),
+                emoji_os=emoji_os,
+            ),
+            colour=0x89C4F9,
+        )
+        await ctx.send(embed=em)
 
     @commands.command(aliases=["effacer"])
     async def clear(self, ctx, n: int = 1):
@@ -221,28 +241,6 @@ class Main(commands.Cog):
                 colour=0x11FF11,
             )
             await ctx.send(embed=em)
-
-    @commands.command()
-    async def info(self, ctx: commands.Context):
-        """Affiches des informations sur le bot"""
-        text = open("data/md/info.md").read()
-        emoji_os = (
-            ":AppleOldLogo:" if str(platform.system()) == "Darwin" else "LinuxLogo"
-        )
-        os_info = str(platform.system()) + " / " + str(platform.release())
-        em = discord.Embed(
-            title="Informations sur Yukki",
-            description=text.format(
-                discord.__version__,
-                Route.BASE,
-                socket.gethostname(),
-                os_info,
-                platform.python_version(),
-                emoji_os=emoji_os,
-            ),
-            colour=0x89C4F9,
-        )
-        await ctx.send(embed=em)
 
 
 def setup(bot: commands.Bot):
