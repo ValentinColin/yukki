@@ -5,6 +5,7 @@ import requests         # cat
 import asyncio          # ethylotest
 import random           # joke, ethylotest
 import json             # joke
+import yaml             # kiss
 import discord
 from discord.ext import commands
 from tools.access import access
@@ -23,6 +24,24 @@ class Fun(commands.Cog):
     async def on_ready(self):
         """Déclare être prêt."""
         print("    Fun's Cog is ready.")
+
+    # ######### #
+    # Functions #
+    # ######### #
+
+    def get_kiss(self) -> str:
+        """Renvoie un url au hasard parmis ceux sauvegarder."""
+        with open("data/yaml/bot.yml", "r") as f:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+        return random.choice(data["kiss"])
+
+    def add_kiss(self, url: str):
+        """Ajoute un url de kiss."""
+        with open("data/yaml/bot.yml", "r") as f:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+        with open("data/yaml/bot.yml", "w") as f:
+            data["kiss"].append(url)
+            yaml.dump(data, f)
 
     # ######### #
     # Commandes #
@@ -44,7 +63,7 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def btcprice(self, ctx: commands.Context):
-        """Le prix du BTC"""
+        """Le prix du Bitcoin."""
         loading = await ctx.send("_réfléchis..._")
         try:
             url = urllib.request.urlopen("https://blockchain.info/fr/ticker")
@@ -66,14 +85,14 @@ class Fun(commands.Cog):
             )
 
     @commands.command()
-    async def joke(self, ctx: commands.Context, number: str = 0):
-        """Print a random joke in a json file"""
+    async def joke(self, ctx: commands.Context, index: str = 0):
+        """Affiche un blague au hazard."""
         with open("data/json/jokes.json") as data_json:
             joke_dict = json.load(data_json)
 
         try:
-            if 0 < int(number) <= 9:
-                clef = str(number)
+            if 0 < int(index) <= 9:
+                clef = index
             else:
                 clef = str(random.randint(1, 15))
         except Exception:
@@ -90,7 +109,7 @@ class Fun(commands.Cog):
 
     @commands.command()
     async def ethylotest(self, ctx: commands.Context):
-        """Ethylotest simulator 2018"""
+        """Ethylotest simulator 2018."""
         results_poulet = [
             "Désolé mais mon ethylotest est sous Windows Vista, "
             "merci de patienter...",
@@ -112,7 +131,7 @@ class Fun(commands.Cog):
         result_c = random.choice(results_client)
 
         await ctx.send(
-            fcite(":oncoming_police_car: Bonjour bonjour," " contrôle d'alcoolémie !")
+            fcite(":oncoming_police_car: Bonjour bonjour, contrôle d'alcoolémie !")
         )
         await asyncio.sleep(0.5)
         await ctx.send(fcite(":man: " + result_c))
@@ -142,6 +161,16 @@ class Fun(commands.Cog):
             await ctx.send(f"{url}")
         else:
             await ctx.send(f"{user.mention}\n{url}")
+
+    @commands.group()
+    async def kiss(self, ctx: commands.Context):
+        """kiss."""
+        await ctx.send(f"{self.get_kiss()}")
+
+    @kiss.command()
+    async def add(self, ctx: commands.Context, url: str):
+        """Ajoute un url kiss à la liste."""
+        # ajouter l'url à la list
 
 
 def setup(bot: commands.Bot):
