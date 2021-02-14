@@ -1,0 +1,121 @@
+283649186446966784:
+    "1":
+        description: Faire un système de changement de préfix de commande
+        checked: True
+        priority: Medium
+    "2"
+        description: Faire des décorateurs qui permettent l'exec uniquement par:
+        checked: True
+        priority: Medium
+        "1":
+            description: Moi uniquement
+            checked: True
+            priority: Medium
+        "2":
+            description: Un groupe de confiance ajouter en dur dans le code
+            checked: True
+            priority: Medium
+        "3":
+            description: Le propriétaire du serveur
+            checked: True
+            priority: Medium
+        "4":
+            description: Un rôle
+            checked: True
+            priority: Medium
+        "5":
+            description: Plusieurs rôles
+            checked: True
+            priority: Medium
+        "6":
+            description: Au moins n rôles parmis les rôles
+            checked: True
+            priority: Medium
+    "3":
+        description: Faire des jeux, casino ?
+        checked: False
+        priority: Low
+    "4":
+        description: Todo-list
+        checked: False
+        priority: Very High
+        "1":
+            description: Afficher
+            checked: True
+            priority: High
+        "2":
+            description: Ajouter des éléments
+            checked: True
+            priority: High
+        "3":
+            description: Supprimer des éléments
+            checked: True
+            priority: Medium
+        "4":
+            description: Insérer des éléments
+            checked: False
+            priority: Medium
+        "5":
+            description: Cocher des éléments
+            checked: False
+            priority: Medium
+        "6":
+            description: Écrire un Todo en Yaml
+            checked: False
+            priority: Medium
+            "1":
+                description: Pouvoir générer un Markdown à partir du Yaml
+                checked: False
+                priority: Medium
+    "5":
+        description: Faire venir le bot dans un channel 
+        checked: False
+        priority: High
+        "1":
+            description: Musique
+            checked: False
+            priority: Medium
+        "2":
+            description: "Lui faire dire oralement des choses (cf: marc)"
+            checked: False
+            priority: Medium
+    "6":
+        description: Faire un cogs de prison
+        checked: True
+        priority: High
+    "7":
+        description: Faire un cogs de rôles
+        checked: False
+        priority: Low
+    "8":
+        description: Faire un cogs de statistiques du serveur
+        checked: False
+        priority: High
+    "9":
+        description: Faire un cogs de spam/troll
+        checked: False
+        priority: Medium
+    "10":
+        description: Faire un cogs de question/réponse avec le bot 
+        checked: False
+        priority: Low
+        "1":
+            description: Faire une IA
+            checked: False
+            priority: Medium
+    "11":
+        description: Mettre une base de données/YAML/JSON
+        checked: True
+        priority: High
+    "12":
+        description: Faire un cogs de sondage
+        checked: True
+        priority: Medium
+        "1":
+            description: Mettre les message dans un embed
+            checked: False
+            priority: Medium
+    "13":
+        description: Faire un cogs de liens utiles
+        checked: False
+        priority: Medium
