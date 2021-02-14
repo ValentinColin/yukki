@@ -1,5 +1,7 @@
 #!/usr/bin/env python3.9
+
 """Gestion de la prison sur discord."""
+
 import yaml
 import discord
 from discord.ext import commands
@@ -69,6 +71,12 @@ class Jail(commands.Cog):
             yaml.dump(data, f)
         return user_roles_id
 
+    def get_prisoners(self, id_server: int):
+        """Renvoie la liste des personnes en prison."""
+        with open("data/yaml/bot.yml", "r") as f:
+            data = yaml.load(f, Loader=yaml.FullLoader)
+        return [prisoner for prisoner in data["servers"][str(id_server)]["prisoners"]]
+
     # ######### #
     # Commandes #
     # ######### #
@@ -131,7 +139,7 @@ class Jail(commands.Cog):
     async def jail_visitor(self, ctx: commands.Context):
         """Voir la liste des prisonniers."""
         list_prisoners = "\n- ".join(
-            [""] + [prisoner.name for prisoner in Jail.prisoners]
+            [""] + [prisoner.name for prisoner in self.get_prisoners(ctx.guild.id)]
         )
         list_emoji = 10 * (emoji.jail + " ")
         txt = f"Liste des prisonniers: {list_emoji} {list_prisoners}"
