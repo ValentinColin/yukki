@@ -1,11 +1,18 @@
 #!/usr/bin/env python3.9
+
 """Fichier de gestion des intéraction avec les utilisateurs sur discord."""
+
 import discord
 from discord.ext import commands
+from tools.access import access
 
 
 class User(commands.Cog):
     """Classe de gestion des intéraction avec les utilisateurs sur discord."""
+
+    def __init__(self, bot: commands.Bot):
+        """Create the main cog using the bot as argument."""
+        self.bot = bot
 
     # ###### #
     # Events #
@@ -33,7 +40,33 @@ class User(commands.Cog):
         embed.set_thumbnail(url=url_avatar)
         await ctx.send(embed=embed)
 
-    @commands.command(brief="Poke quelqu'un")
+    @commands.command()
+    async def user_info(self, ctx: commands.Context, target: discord.Member = None):
+        """Affiche l'avatar d'un membre."""
+        if target is None:
+            target = ctx.message.author
+        url_avatar = target.avatar_url_as()
+        info = {
+            "Id": target.id,
+            "Nom": target.name,
+            "Surnom": target.nick,
+            "Avatar": f"[Voir en plus grand]({url_avatar})",
+            "À créé son compte à": target.created_at,
+            "À rejoint le serveur à": target.joined_at,
+        }
+        if info["Surnom"] is None:
+            info["Surnom"] = "~~Pas de surnom~~"
+
+        txt = "\n - ".join([""] + [f"{key} : {val}" for key, val in info.items()])
+        embed = discord.Embed(
+            title=f"Informations sur {target.name}",
+            description=txt,
+            colour=target.top_role.color,
+        )
+        embed.set_thumbnail(url=url_avatar)
+        await ctx.send(embed=embed)
+
+    @commands.command()
     async def poke(self, ctx: commands.Context, target: discord.Member, anonymous=None):
         """Poke quelqu'un. Anonymement ou non.
         Écrire n'importe toi derrière le tag de la personne pour être anonyme.
@@ -47,10 +80,48 @@ class User(commands.Cog):
                 f"{ctx.message.author} !"
             )
 
+    @commands.command(hidden=True)
+    @access.admin
+    async def move(
+        self, ctx: commands.Context, channel: discord.VoiceChannel, *users: discord.Member
+    ):
+        """Déplace le membre vers un salon vocal."""
+        await ctx.message.delete()
+        for user in users:
+            await user.move_to(channel)
+
     @commands.command()
-    async def move(self, ctx: commands.Context, user: discord.Member, channel: discord.VoiceChannel):
-        """Documentation of the function."""
-        pass
+    @access.admin
+    async def disconnect(self, ctx: commands.Context, *users: discord.Member):
+        """Déplace le membre vers un salon vocal."""
+        await ctx.message.delete()
+        for user in users:
+            await user.move_to(None)
+
+    @commands.command()
+    @access.admin
+    async def mute(self, ctx: commands.Context, *users: discord.Member):
+        """Déplace le membre vers un salon vocal."""
+        await ctx.message.delete()
+        for user in users:
+            await user.edit(mute=True)
+
+    @commands.command()
+    @access.admin
+    async def unmute(self, ctx: commands.Context, *users: discord.Member):
+        """Déplace le membre vers un salon vocal."""
+        for user in users:
+        await user.edit(mute=False)
+        await ctx.message.delete()
+
+    @commands.command()
+    @access.admin
+    async def rename(self, ctx: commands.Context, user: discord.Member, *, nickname: str = None):
+        """Rename un membre.
+        Ne pas donner d'arguments permet de retirer le surnom.
+        """
+        await user.edit(nick=nickname)
+
 
 
 def setup(bot: commands.Bot):
