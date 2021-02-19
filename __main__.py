@@ -4,7 +4,7 @@
 
 import cogs.main as main
 from discord.ext import commands
-from config.config import DISCORD_TOKEN, get_prefix
+from config.config import get_prefix, DISCORD_TOKEN
 
 
 client = commands.Bot(command_prefix=get_prefix)

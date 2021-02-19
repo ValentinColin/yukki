@@ -24,6 +24,7 @@ kiss:
 - https://tenor.com/view/besos-gif-8760472
 - https://tenor.com/view/gros-bisous-gif-13435008
 - https://tenor.com/view/loveyou-ted-teddy-bear-bear-seth-mac-farlane-gif-5411337
+- https://tenor.com/view/kiss-gif-10053867
 links:
 - www.google.com:
     author_id: 283649186446966784
@@ -35,7 +36,7 @@ servers:
     prefix: .
     prisoners:
       prisoner_id:
-      - "liste d'id des roles avant la prison"
+      - liste d'id des roles avant la prison
   '550332212340326428':
     prefix: '-'
     prisoners:
@@ -51,9 +52,9 @@ servers:
       - 703368829874733176
       - 703368387731914772
       prisoner_id:
-      - "liste d'id des roles avant la prison"
+      - liste d'id des roles avant la prison
   default:
     prefix: .
     prisoners:
       prisoner_id:
-      - "liste d'id des roles avant la prison"
+      - liste d'id des roles avant la prison

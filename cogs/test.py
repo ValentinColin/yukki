@@ -7,6 +7,7 @@ from config import emoji
 from tools.format import fcite
 
 
+
 class Test(commands.Cog):
     """Classe de test."""
 
@@ -28,9 +29,10 @@ class Test(commands.Cog):
     # ######### #
 
     @commands.command(hidden=True)
-    async def test(self, ctx: commands.Context, *args, **kwargs):
+    async def test(self, ctx: commands.Context, msg: str = "@everyone"):
         """Commande de test/brouillon."""
         await ctx.send("Cette commande ne fait rien du tout.")
+        await ctx.send(msg)
 
 
 

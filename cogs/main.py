@@ -75,6 +75,13 @@ class Main(commands.Cog):
     # ######### #
 
     @commands.command()
+    @access.me
+    async def exit(self, ctx: commands.Context):
+        """Arrête l'exécution du bot."""
+        await ctx.send(fcite("System Exit..."))
+        raise SystemExit
+
+    @commands.command()
     @access.admin
     async def load(self, ctx: commands.Context, extension):
         """Charge une extension."""

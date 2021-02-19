@@ -1,0 +1,15 @@
+linker:
+    links:
+        <<: &link0001
+            - "www.google.com"
+        <<: &link0002
+            - "www.apple.com"
+        <<: &link0003
+            - "www.microsoft.com"
+    "12": # peut être un id de serveur ou de membre
+        <<: *link0001
+        <<: *link0003
+    "34":
+        <<: *link0002
+    
+        

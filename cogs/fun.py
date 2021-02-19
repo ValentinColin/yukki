@@ -165,12 +165,15 @@ class Fun(commands.Cog):
     @commands.group()
     async def kiss(self, ctx: commands.Context):
         """kiss."""
-        await ctx.send(f"{self.get_kiss()}")
+        if ctx.invoked_subcommand is None:
+            await ctx.send(f"{self.get_kiss()}")
 
     @kiss.command()
     async def add(self, ctx: commands.Context, url: str):
         """Ajoute un url kiss à la liste."""
-        # ajouter l'url à la list
+        self.add_kiss(url)
+        await ctx.message.add_reaction(emoji.check)
+        await ctx.message.add_reaction(emoji.kiss)
 
 
 def setup(bot: commands.Bot):
