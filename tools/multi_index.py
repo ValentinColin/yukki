@@ -1,6 +1,7 @@
 #!/usr/bin/env python3.9
 """Fichiers de multi_index."""
 import re
+from copy import copy
 
 
 class MultiIndex:
@@ -129,7 +130,7 @@ class MultiIndex:
 
     def __add__(self, n):
         """"""
-        lvl = self.levels
+        lvl = copy(self.levels)
         lvl[-1] += n
         string = self.listToString(lvl)
         return MultiIndex(string)
