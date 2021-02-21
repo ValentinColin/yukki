@@ -123,26 +123,22 @@ class User(commands.Cog):
         """
         await user.edit(nick=nickname)
 
-    @commands.command()
-    @access.admin
-    async def rename(self, ctx: commands.Context, user: discord.Member, *, msg: str = None):
-        """Rename un membre.
-        Ne pas donner d'arguments permet de retirer le surnom.
-        """
-        await ctx.message.delete()
-        if msg is None:
-            msg = "Quelqu'un veut discuter avec toi !"
-        
     @commands.command(aliases=["envoie", "mp", "dm"])
     async def send(self, ctx: commands.Context, member: discord.Member, *, msg: str):
         """Envoie un messages privée à un membre."""
-        if ctx.message.channel is discord.TextChannel: # channel textuel de server
+        txt = f"Message **{msg}** envoyé."
+        print(ctx.message.channel)
+        print(type(ctx.message.channel))
+        channel_type = type(ctx.message.channel)
+        if channel_type is discord.TextChannel:  # channel textuel de server
             await member.send(msg)
-        elif ctx.message.channel is discord.DMChannel: # message privée avec une seul personne
+        elif channel_type is discord.DMChannel:  # message privée avec une seul personne
             await ctx.channel.send(msg)
-        elif ctx.message.channel is discord.GroupChannel: # message privée avec une seul personne
+        elif channel_type is discord.GroupChannel:  # message privée avec une seul personne
             await ctx.channel.send(msg)
-        await ctx.send(fcite(f"Message **{msg}** envoyé."))
+        else:
+            txt = "J'ai pas réussi à envoyer le message."
+        await ctx.send(fcite(txt))
 
 
 
