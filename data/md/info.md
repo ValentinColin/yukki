@@ -8,11 +8,11 @@
 
 🖥️ **Hébergé sur "{2}"**:
 └> {emoji_os} OS : {3}
-└> Version python: {4}
+└> {python_logo} Version python: {4}
 
 ☎️ **Contact** :
-└> :DiscordLogo: : Call me Valou ╰(\*°▽°\*)╯#5528
+└> {discord_logo} : Call me Valou ╰(\*°▽°\*)╯#5528
 └> 📫 : [valentin.colin78@gmail.com](mailto:valentin.colin78@gmail.com)
 
-:DiscordLogo: Serveur:
+{discord_logo} Serveur:
 └> No need to know :slight_smile:
