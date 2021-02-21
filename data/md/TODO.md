@@ -29,8 +29,9 @@
 - [x] {12} Faire un cogs de sondage
     - [ ] {12.1} Mettre les message dans un embed
 - [x] {13} Faire un cogs de liens utiles
-- [ ] {14} Pouvoir récupérer un id:
+- [x] {14} Pouvoir récupérer un id:
     - [x] {14.1} de membre
-    - [ ] {14.2} de rôle
-    - [ ] {14.3} de server
-    - [ ] {14.4} de channel ?
+    - [x] {14.2} de rôle
+    - [x] {14.3} de server
+    - [x] {14.4} de channel
+    - [x] {14.5} d'emoji
