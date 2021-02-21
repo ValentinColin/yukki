@@ -123,6 +123,7 @@ class Todo(commands.Cog):
         for index_line, line in enumerate(lines):
             if str(multi_index) in line:
                 target_index_line = index_line
+                break
 
         # On modifie la ligne cible
         lines[target_index_line] = lines[target_index_line].replace("[ ]", "[x]")
