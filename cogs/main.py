@@ -74,9 +74,9 @@ class Main(commands.Cog):
     # Commandes #
     # ######### #
 
-    @commands.command()
+    @commands.command(name="exit")
     @access.me
-    async def exit(self, ctx: commands.Context):
+    async def _exit(self, ctx: commands.Context):
         """Arrête l'exécution du bot."""
         await ctx.send(fcite("System Exit..."))
         raise SystemExit
@@ -172,7 +172,7 @@ class Main(commands.Cog):
     async def owner(self, ctx: commands.Context):
         """Affiche le nom du propriétaire du serveur."""
         owner_name = await ctx.guild.fetch_member(ctx.guild.owner_id)
-        await ctx.send(fcite(f"Le propriétaire du serveur est {owner_name}"))
+        await ctx.send(fcite(f"Le propriétaire du serveur est **{owner_name}**"))
 
     @commands.command(name="id")
     async def _id(self, ctx: commands.Context, target: discord.Member = None):
@@ -180,7 +180,33 @@ class Main(commands.Cog):
         if target is None:
             await ctx.send(fcite(f"Ton id est: {ctx.author.id}"))
         else:
-            await ctx.send(fcite(f"L'id de {target.name} est: {target.id}"))
+            await ctx.send(fcite(f"L'id de **{target.name}** est: {target.id}"))
+
+    @commands.command()
+    async def id_role(self, ctx: commands.Context, role: discord.Role = None):
+        """Affiche l'id du rôle.
+        Le rôle everyone est pris par défault."""
+        txt = ""
+        everyone_role = discord.utils.get(ctx.guild.roles, name="@everyone")
+        if (role is None) or (role is everyone_role):
+            role = everyone_role
+            txt = "Note: L'id du rôle everyone est le même que celui du serveur.\n"
+        await ctx.send(txt + fcite(f"L'id du rôle **{role.name}** est: {role.id}"))
+
+    @commands.command(aliases=["id_guild", "id_serveur"])
+    async def id_server(self, ctx: commands.Context):
+        """Affiche l'id du serveur."""
+        await ctx.send(fcite(f"L'id du serveur **{ctx.guild.name}** est: {ctx.guild.id}"))
+
+    @commands.command()
+    async def id_channel(self, ctx: commands.Context, channel: discord.TextChannel):
+        """Affiche l'id du salon textuel."""
+        await ctx.send(fcite(f"L'id du salon textuel **{channel.name}** est: {channel.id}"))
+
+    @commands.command()
+    async def id_emoji(self, ctx: commands.Context, emoji: discord.Emoji):
+        """Affiche l'id de l'emoji."""
+        await ctx.send(fcite(f"L'id de l'emoji **{emoji.name}** est: {emoji.id}"))
 
     @commands.command(aliases=["guild", "serveur"])
     async def server(self, ctx: commands.Context):
@@ -191,10 +217,13 @@ class Main(commands.Cog):
     async def info(self, ctx: commands.Context):
         """Affiche les informations générales de l'application."""
         text = open("data/md/info.md").read()
-        emoji_os = (
-            ":AppleOldLogo:" if str(
-                platform.system()) == "Darwin" else "LinuxLogo"
-        )
+
+        emoji_apple = discord.utils.get(ctx.guild.emojis, name="AppleOldLogo")
+        emoji_linux = discord.utils.get(ctx.guild.emojis, name="LinuxLogo")
+        emoji_python = discord.utils.get(ctx.guild.emojis, name="PythonLogo")
+        emoji_discord = discord.utils.get(ctx.guild.emojis, name="DiscordLogo")
+        emoji_os = emoji_apple if str(platform.system()) == "Darwin" else emoji_linux
+
         os_info = str(platform.system()) + " / " + str(platform.release())
         embed = discord.Embed(
             title="Informations sur Yukki",
@@ -205,6 +234,8 @@ class Main(commands.Cog):
                 os_info,
                 platform.python_version(),
                 emoji_os=emoji_os,
+                python_logo=emoji_python,
+                discord_logo=emoji_discord
             ),
             colour=0x89C4F9,
         )
@@ -227,27 +258,27 @@ class Main(commands.Cog):
         formated_res = [item for item in ping_res.split() if "time=" in item]
         result = str(formated_res[0])[5:]
         if float(result) >= 200:
-            em = discord.Embed(
+            embed = discord.Embed(
                 title="Ping : " + str(result) + "ms",
                 description="... c'est quoi ce ping !",
                 colour=0xFF1111,
             )
-            await ctx.send(embed=em)
+            await ctx.send(embed=embed)
         elif 100 < float(result) < 200:
-            em = discord.Embed(
+            embed = discord.Embed(
                 title="Ping : " + str(result) + "ms",
                 description="Ca va, ça peut aller, mais j'ai "
                 "l'impression d'avoir 40 ans !",
                 colour=0xFFA500,
             )
-            await ctx.send(embed=em)
+            await ctx.send(embed=embed)
         else:
-            em = discord.Embed(
+            embed = discord.Embed(
                 title="Ping : " + str(result) + "ms",
                 description="Wow c'te vitesse de réaction, je m'épate moi-même !",
                 colour=0x11FF11,
             )
-            await ctx.send(embed=em)
+            await ctx.send(embed=embed)
 
 
 def setup(bot: commands.Bot):
