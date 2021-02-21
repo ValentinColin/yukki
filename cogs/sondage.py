@@ -2,10 +2,10 @@
 """Fichiers de gestion des sondages."""
 import re
 import asyncio
+import datetime
+import dateutil
 import discord
 from discord.ext import commands
-from datetime import datetime, timedelta, timezone
-from dateutil import tz
 from config import emoji
 from tools.format import fcite, fcode
 
@@ -57,10 +57,10 @@ class Sondage(commands.Cog):
         """Gestion des sondages."""
         if ctx.invoked_subcommand is None:
             text = open("data/md/sondage-help.md").read().format(self.default_unit)
-            em = discord.Embed(
+            embed = discord.Embed(
                 title="Aide sur le sondage", description=text, colour=0xEEEEEE
             )
-            await ctx.send(embed=em)
+            await ctx.send(embed=embed)
 
     @sondage.command(aliases=["créer", "crée"])
     async def create(self, ctx: commands.Context, *, message: str):
@@ -104,10 +104,10 @@ class Sondage(commands.Cog):
         sondage_msg += f"\n*Sondage proposé par* {ctx.message.author.mention}"
 
         if time is not None:
-            FRA = tz.gettz('Europe/Paris')
+            zone_fr = dateutil.tz.gettz('Europe/Paris')
 
-            now = datetime.now(tz=FRA)
-            delta = timedelta(seconds=time * self.secondes[unit])
+            now = datetime.datetime.now(tz=zone_fr)
+            delta = datetime.timedelta(seconds=time * self.secondes[unit])
             date_stop = now + delta
 
             format_date = "%A %d %B - %H:%M"  # lundi 01 Janvier - 17:13

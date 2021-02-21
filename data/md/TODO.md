@@ -7,14 +7,15 @@
     - [x] {2.5} plusieurs rôles
     - [x] {2.6} au moins n rôles parmis les rôles
 - [ ] {3} Faire des jeux, casino ?
-- [ ] {4} Todo-list
+- [ ] {4} Cog Todo
     - [x] {4.1} Afficher
     - [x] {4.2} Ajouter des éléments
     - [x] {4.3} Supprimer des éléments
     - [ ] {4.4} Insérer des éléments
-    - [ ] {4.5} Cocher des éléments
-    - [ ] {4.6} Écrire un Todo en Yaml 
+    - [x] {4.5} Cocher/Valider les éléments
+    - [ ] {4.6} Écrire un Todo en Yaml
         - [ ] {4.6.1} Pouvoir générer un Markdown à partir du Yaml
+    - [ ] {4.7} trier une liste de todo par multi-index
 - [ ] {5} Faire venir le bot dans un channel 
     - [ ] {5.1} Musique
     - [ ] {5.2} Lui faire dire oralement des choses (cf: marc)
@@ -27,4 +28,9 @@
 - [x] {11} Mettre une base de données/YAML/JSON
 - [x] {12} Faire un cogs de sondage
     - [ ] {12.1} Mettre les message dans un embed
-- [ ] {13} Faire un cogs de liens utiles
+- [x] {13} Faire un cogs de liens utiles
+- [ ] {14} Pouvoir récupérer un id:
+    - [x] {14.1} de membre
+    - [ ] {14.2} de rôle
+    - [ ] {14.3} de server
+    - [ ] {14.4} de channel ?

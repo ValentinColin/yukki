@@ -2,12 +2,11 @@
 
 """Fichiers d'affichage des fichiers Todo."""
 
-import os
-import re
 import json
 import discord
 from discord.ext import commands
-from config.config import path_todo_list, path_todo_json
+from config.config import path_todo_list
+from config import emoji
 from tools.access import access
 from tools.format import fcite, fmarkdown, fmdcheck
 from tools.multi_index import MultiIndex
@@ -54,9 +53,9 @@ class Todo(commands.Cog):
             list_multi_index = MultiIndex.extract(
                 path_file=path_todo_list, regex=r"{[\d\.]*}"
             )
-            multi_index = list_multi_index[-1]
-            new_multi_index = multi_index + 1
-            txt_formatted = f"{{{multi_index}}} " + txt + "\n"
+            last_multi_index = list_multi_index[-1]
+            next_multi_index = last_multi_index + 1
+            txt_formatted = f"{{{next_multi_index}}} " + txt + "\n"
             todo_list.write(fmdcheck(txt_formatted, level=1))
         await ctx.send(fcite("Ajouter à la todo-list !"))
 
@@ -81,8 +80,10 @@ class Todo(commands.Cog):
         exemple:
             .todo insert 1.2.3 Je ne doit pas oublié de mettre le lait avant les céréales
         """
-        await ctx.send(fcite("Not worked !"))
+        await ctx.send(fcite("Not worked ! (I didn't execute anything)"))
         return None
+        # TODO
+        # Ne fonctionne pas pour des niveaux trop trop profond (2+ ?)
         with open(path_todo_list, "r+") as todo_list:
             father_multi_index = MultiIndex(father_multi_index)
             list_multi_index = father_multi_index.extract(path_todo_list)
@@ -113,7 +114,25 @@ class Todo(commands.Cog):
     @access.me
     async def check(self, ctx: commands.Context, multi_index: MultiIndex):
         """Coche une checkbox dans la todo-list."""
-        await ctx.send("Not implemented yet")
+        with open(path_todo_list) as todo_list:
+            txt = todo_list.read()
+
+        lines = txt.split("\n")
+        # On trouve la ligne cible
+        target_index_line = None
+        for index_line, line in enumerate(lines):
+            if str(multi_index) in line:
+                target_index_line = index_line
+
+        # On modifie la ligne cible
+        lines[target_index_line] = lines[target_index_line].replace("[ ]", "[x]")
+
+        # On sauve la ligne modifié
+        with open(path_todo_list, "w") as todo_list:
+            txt = "\n".join(lines)
+            todo_list.write(txt)
+
+        await ctx.message.add_reaction(emoji.check)
 
 
 def setup(bot: commands.Bot):

@@ -1,11 +1,13 @@
 #!/usr/bin/env python3.9
-""""""
+
+"""A funny cogs."""
+
 import urllib.request   # bitcoin price
-import requests         # cat
 import asyncio          # ethylotest
 import random           # joke, ethylotest
 import json             # joke
 import yaml             # kiss
+import requests         # cat
 import discord
 from discord.ext import commands
 from tools.access import access
@@ -29,13 +31,15 @@ class Fun(commands.Cog):
     # Functions #
     # ######### #
 
-    def get_kiss(self) -> str:
+    @staticmethod
+    def get_kiss() -> str:
         """Renvoie un url au hasard parmis ceux sauvegarder."""
         with open("data/yaml/bot.yml", "r") as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
         return random.choice(data["kiss"])
 
-    def add_kiss(self, url: str):
+    @staticmethod
+    def add_kiss(url: str):
         """Ajoute un url de kiss."""
         with open("data/yaml/bot.yml", "r") as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
@@ -71,7 +75,7 @@ class Fun(commands.Cog):
         except KeyError:
             btc = None
 
-        if btc == None:
+        if btc is None:
             await loading.edit(
                 content="Impossible d'accèder à l'API"
                 " blockchain.info, veuillez réessayer"
@@ -96,7 +100,7 @@ class Fun(commands.Cog):
             else:
                 clef = str(random.randint(1, 15))
         except Exception:
-            lef = str(random.randint(1, 15))
+            clef = str(random.randint(1, 15))
 
         joke = joke_dict[f"{clef}"]
 
@@ -141,8 +145,8 @@ class Fun(commands.Cog):
     @commands.command(aliases=["cat", "chat"])
     async def randomcat(self, ctx):
         """Affiche un mignon petit chat."""
-        r = requests.get("http://aws.random.cat/meow")
-        cat_url = str(r.json()["file"])
+        req = requests.get("http://aws.random.cat/meow")
+        cat_url = str(req.json()["file"])
         embed = discord.Embed(
             title="Meow",
             description=f"[Voir le chat plus grand]({cat_url})",
@@ -157,7 +161,7 @@ class Fun(commands.Cog):
     async def rip(self, ctx: commands.Context, user: discord.Member = None):
         """Rip Machin."""
         url="https://giphy.com/gifs/ghana-dancing-pallbearers-coffin-Wr2747CnxwBSqyK6xt"
-        if user == None:
+        if user is None:
             await ctx.send(f"{url}")
         else:
             await ctx.send(f"{user.mention}\n{url}")

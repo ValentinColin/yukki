@@ -4,9 +4,10 @@
 
 import os
 import socket
-import progressbar
-import subprocess
 import platform
+import subprocess
+
+import progressbar
 import discord
 
 from discord.ext import commands
@@ -36,7 +37,6 @@ class Main(commands.Cog):
     @commands.Cog.listener()
     async def on_member_join(self, member: discord.Member):
         """Nouveau membre."""
-        pass
 
     @commands.Cog.listener()
     async def on_member_remove(self, member: discord.Member):
@@ -63,10 +63,10 @@ class Main(commands.Cog):
             for file in os.listdir("./cogs")
             if (file.endswith(".py") and file != "main.py")
         ]
-        with progressbar.ProgressBar(max_value=len(cogs) + 1) as bar:
-            bar.update(0)
+        with progressbar.ProgressBar(max_value=len(cogs) + 1) as progress_bar:
+            progress_bar.update(0)
             for i, filename in enumerate(cogs):
-                bar.update(i + 1)
+                progress_bar.update(i + 1)
                 self.bot.load_extension(f"cogs.{filename[:-3]}")
         print("Extension loaded:")  # les méthodes on_ready() dirons s'ils sont prêt
 
@@ -174,8 +174,8 @@ class Main(commands.Cog):
         owner_name = await ctx.guild.fetch_member(ctx.guild.owner_id)
         await ctx.send(fcite(f"Le propriétaire du serveur est {owner_name}"))
 
-    @commands.command()
-    async def id(self, ctx: commands.Context, target: discord.Member = None):
+    @commands.command(name="id")
+    async def _id(self, ctx: commands.Context, target: discord.Member = None):
         """Affiche l'id du membre."""
         if target is None:
             await ctx.send(fcite(f"Ton id est: {ctx.author.id}"))
@@ -196,7 +196,7 @@ class Main(commands.Cog):
                 platform.system()) == "Darwin" else "LinuxLogo"
         )
         os_info = str(platform.system()) + " / " + str(platform.release())
-        em = discord.Embed(
+        embed = discord.Embed(
             title="Informations sur Yukki",
             description=text.format(
                 discord.__version__,
@@ -208,7 +208,7 @@ class Main(commands.Cog):
             ),
             colour=0x89C4F9,
         )
-        await ctx.send(embed=em)
+        await ctx.send(embed=embed)
 
     @commands.command(aliases=["effacer"])
     async def clear(self, ctx, n: int = 1):

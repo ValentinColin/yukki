@@ -30,17 +30,17 @@ class Jail(commands.Cog):
     # ######### #
 
     @classmethod
-    def get_jail_role(cls, ctx: commands.Context):
+    def get_jail_role(cls, ctx: commands.Context) -> discord.Role:
         """Renvoie le rôle prisonnier."""
         return discord.utils.get(ctx.guild.roles, name=cls.role_name)
 
     @classmethod
-    def get_jail_voice_channel(cls, ctx: commands.Context):
+    def get_jail_voice_channel(cls, ctx: commands.Context) -> discord.VoiceChannel:
         """Renvoie le channel vocal de la prison."""
         return discord.utils.get(ctx.guild.voice_channels, name=cls.channel_name)
 
     @staticmethod
-    def save_roles(ctx: commands.Context, prisoner: discord.Member):
+    def save_roles(ctx: commands.Context, prisoner: discord.Member) -> None:
         """Sauvegarde les roles du prisonnier."""
         id_server = str(ctx.guild.id)
         prisoner_roles_id = [role.id for role in prisoner.roles]
@@ -57,7 +57,7 @@ class Jail(commands.Cog):
             yaml.dump(data, f)
 
     @staticmethod
-    def get_roles(ctx: commands.Context, user: discord.Member):
+    def get_roles(ctx: commands.Context, user: discord.Member) -> list[int]:
         """Récupère les anciens rôles du prisonnier.
         Et supprime le prisonnier de la liste des prisonnier."""
         id_server = str(ctx.guild.id)
@@ -71,11 +71,13 @@ class Jail(commands.Cog):
             yaml.dump(data, f)
         return user_roles_id
 
-    def get_prisoners(self, id_server: int):
+    @staticmethod
+    def get_prisoners_id(id_server: int) -> list[int]:
         """Renvoie la liste des personnes en prison."""
         with open("data/yaml/bot.yml", "r") as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
-        return [prisoner for prisoner in data["servers"][str(id_server)]["prisoners"]]
+        prisoners_id = data["servers"][str(id_server)]["prisoners"]
+        return [int(prisoner) for prisoner in prisoners_id]
 
     # ######### #
     # Commandes #
@@ -93,7 +95,7 @@ class Jail(commands.Cog):
         await new_prisoner.edit(
             mute=True,
             deafen=False,
-            roles=[self.get_jail_role(ctx)],
+            roles=[self.get_jail_role(ctx),],
             voice_channel=self.get_jail_voice_channel(ctx),
             reason="Tu es à présent en prison !",
         )
@@ -104,7 +106,7 @@ class Jail(commands.Cog):
             f"> Tes rôles ne t'appartiennent plus !"
         )
         await ctx.send(fcite(txt))
-        await ctx.send(fcode(dashboard_roles, "md"))
+        await ctx.send(fcode(dashboard_roles, "diff"))
 
     @commands.command(aliases=["liberer", "liberation"])
     @access.has_role("Policeman")
@@ -115,8 +117,8 @@ class Jail(commands.Cog):
         for role in ctx.guild.roles:
             if role.id in user_roles_id:
                 user_roles.append(role)
-
-        minus_roles = [self.get_jail_role(ctx)]
+        new_free_user.roles
+        minus_roles = [self.get_jail_role(ctx),]
         plus_roles = [role for role in user_roles]
         dashboard_roles = "\n - ".join([""] + [role.name for role in minus_roles])
         dashboard_roles += "\n + ".join([""] + [role.name for role in plus_roles])
@@ -138,9 +140,21 @@ class Jail(commands.Cog):
     @commands.command(aliases=["voir_prisonnier"])
     async def jail_visitor(self, ctx: commands.Context):
         """Voir la liste des prisonniers."""
-        list_prisoners = "\n- ".join(
-            [""] + [prisoner.name for prisoner in self.get_prisoners(ctx.guild.id)]
-        )
+        prisoners_name = []
+        for id_prisoner in self.get_prisoners_id(ctx.guild.id):
+            prisoner = discord.utils.find(
+                    predicate=lambda m: m.id == id_prisoner,
+                    seq=ctx.guild.members
+                )
+            if prisoner is not None:
+                prisoners_name.append(prisoner.name)
+            else:
+                print(
+                    f"Error: member not found:\n"
+                    f"   guild: {ctx.guild.name}\n"
+                    f"   id: {id_prisoner} (no match)"
+                )
+        list_prisoners = "\n- ".join([""] + prisoners_name)
         list_emoji = 10 * (emoji.jail + " ")
         txt = f"Liste des prisonniers: {list_emoji} {list_prisoners}"
         await ctx.send(fmarkdown(txt))
