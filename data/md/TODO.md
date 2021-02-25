@@ -6,7 +6,17 @@
     - [x] {2.4} un rôle
     - [x] {2.5} plusieurs rôles
     - [x] {2.6} au moins n rôles parmis les rôles
-- [ ] {3} Faire des jeux, casino ?
+- [ ] {3} Faire un cog de banque
+    - [ ] {3.1} Retirer de l'argent aux personnes en prison
+    - [ ] {3.2} Faire un casino
+        - [ ] {3.2.1} Blackjack
+        - [ ] {3.2.2} Roulette
+        - [ ] {3.2.3} Machine à sous
+    - [ ] {3.3} Faire un cog de jeux
+        - [ ] {3.3.1} Faire 
+        - [ ] {3.3.2} Voler le puissance 4 de Marc (hehehe)
+        - [ ] {3.3.3} Morpion
+        - [ ] {3.3.4} Sudoku ?
 - [ ] {4} Cog Todo
     - [x] {4.1} Afficher
     - [x] {4.2} Ajouter des éléments
@@ -35,3 +45,5 @@
     - [x] {14.3} de server
     - [x] {14.4} de channel
     - [x] {14.5} d'emoji
+- [ ] {15} Faire un cog de citation
+    - [ ] {15.1} Pouvoir laisser les utilisateurs rajouter leurs propres citations
