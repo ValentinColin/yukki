@@ -8,7 +8,6 @@ import inspect
 import discord
 from discord.ext import commands
 from config import emoji
-from config.config import my_id
 from tools.format import fcite, fmarkdown
 
 
