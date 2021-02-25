@@ -27,7 +27,7 @@ class Sondage(commands.Cog):
     default_unit = "min"
 
     def __init__(self, bot: commands.Bot):
-        """"""
+        """Create the main cog using the bot as argument."""
         self.bot = bot
 
     # ###### #
