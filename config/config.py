@@ -10,9 +10,10 @@ DISCORD_TOKEN = os.getenv("DISCORD_TOKEN")
 
 PREFIX = "."  # prefix des commandes discord
 
+
 def get_prefix(bot, msg):
     """Renvoie le prefix en fonction sur server."""
-    if type(msg.channel) is discord.TextChannel: # channel textuel de server
+    if type(msg.channel) is discord.TextChannel:  # channel textuel de server
         id_server = str(msg.guild.id)
         with open("data/yaml/bot.yml") as f:
             data = yaml.load(f, Loader=yaml.FullLoader)
@@ -24,9 +25,10 @@ def get_prefix(bot, msg):
                 data["servers"][id_server] = data["servers"]["default"]
                 yaml.dump(data, f)
         prefix = data["servers"][id_server]["prefix"]
-    else: # message privée (groupé ou non)
+    else:  # message privée (groupé ou non)
         prefix = PREFIX
     return prefix
+
 
 path_todo_list = "data/md/TODO.md"
 path_todo_json = "data/json/TODO.json"

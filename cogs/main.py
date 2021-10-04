@@ -154,8 +154,8 @@ class Main(commands.Cog):
     @commands.command(aliases=["est_propriétaire", "est_propio"])
     async def is_owner(self, ctx: commands.Context, target: discord.Member = None):
         """Vérifie si cette personne est propriétaire du serveur.
-		L'auteur de la commande est désigné comme target par défault.
-		"""
+        L'auteur de la commande est désigné comme target par défault.
+        """
         if target is None:
             if ctx.guild.owner_id == ctx.author.id:
                 txt = "Vous êtes le propriétaire de ce serveur"
@@ -268,7 +268,7 @@ class Main(commands.Cog):
             embed = discord.Embed(
                 title="Ping : " + str(result) + "ms",
                 description="Ca va, ça peut aller, mais j'ai "
-                "l'impression d'avoir 40 ans !",
+                            "l'impression d'avoir 40 ans !",
                 colour=0xFFA500,
             )
             await ctx.send(embed=embed)
