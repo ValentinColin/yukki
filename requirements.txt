@@ -1,0 +1,7 @@
+discord
+progressbar
+pyfiglet
+python-dateutil
+python-dotenv
+PyYAML
+requests

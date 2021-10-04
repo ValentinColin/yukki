@@ -2,16 +2,17 @@
 
 """A funny cogs."""
 
-import urllib.request   # bitcoin price
-import asyncio          # ethylotest
-import random           # joke, ethylotest
-import json             # joke
-import yaml             # kiss
-import requests         # cat
+import urllib.request  # bitcoin price
+import asyncio  # ethylotest
+import random  # joke, ethylotest
+import json  # joke
+import yaml  # kiss
+import requests  # cat
 import discord
+import pyfiglet  # figlet
 from discord.ext import commands
 from tools.access import access
-from tools.format import fcite
+from tools.format import fcite, fcode
 from config import emoji
 
 
@@ -53,7 +54,7 @@ class Fun(commands.Cog):
 
     @commands.command(aliases=["dire"])
     async def say(
-        self, ctx: commands.Context, *, txt: str = "Donne moi un texte à dire."
+            self, ctx: commands.Context, *, txt: str = "Donne moi un texte à dire."
     ):
         """Fais dire un texte au bot."""
         await ctx.send(fcite(txt))
@@ -78,8 +79,8 @@ class Fun(commands.Cog):
         if btc is None:
             await loading.edit(
                 content="Impossible d'accèder à l'API"
-                " blockchain.info, veuillez réessayer"
-                " ultérieurment ! :c"
+                        " blockchain.info, veuillez réessayer"
+                        " ultérieurment ! :c"
             )
         else:
             frbtc = str(btc["EUR"]["last"]).replace(".", ",")
@@ -160,7 +161,7 @@ class Fun(commands.Cog):
     @commands.command()
     async def rip(self, ctx: commands.Context, user: discord.Member = None):
         """Rip Machin."""
-        url="https://giphy.com/gifs/ghana-dancing-pallbearers-coffin-Wr2747CnxwBSqyK6xt"
+        url = "https://giphy.com/gifs/ghana-dancing-pallbearers-coffin-Wr2747CnxwBSqyK6xt"
         if user is None:
             await ctx.send(f"{url}")
         else:
@@ -178,6 +179,14 @@ class Fun(commands.Cog):
         self.add_kiss(url)
         await ctx.message.add_reaction(emoji.check)
         await ctx.message.add_reaction(emoji.kiss)
+
+    @commands.command()
+    async def figlet(self, ctx: commands.Context, *, txt: str = "Hello World"):
+        """Envoie un message transformer par figlet."""
+        await ctx.message.delete()
+        txt_render = f"From: {ctx.author}\n"
+        txt_render += pyfiglet.figlet_format(txt)
+        await ctx.send(fcode(txt_render))
 
 
 def setup(bot: commands.Bot):

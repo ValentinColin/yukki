@@ -66,8 +66,8 @@ class Main(commands.Cog):
         with progressbar.ProgressBar(max_value=len(cogs) + 1) as progress_bar:
             progress_bar.update(0)
             for i, filename in enumerate(cogs):
-                progress_bar.update(i + 1)
                 self.bot.load_extension(f"cogs.{filename[:-3]}")
+                progress_bar.update(i + 1)
         print("Extension loaded:")  # les méthodes on_ready() dirons s'ils sont prêt
 
     # ######### #
