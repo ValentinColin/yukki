@@ -18,6 +18,14 @@ class Lol(commands.Cog):
         """Déclare être prêt."""
         print("    Lol's Cog is ready.")
 
+    @commands.Cog.listener(name="game launched")
+    async def game_launched(self, ctx: commands.Context):
+        """Notifie dés qu'une personne lance un jeu"""
+        member: discord.Member
+        async for m in ctx.guild.members:
+            if member.activity == discord.ActivityType.playing:
+                print(f"{member.display_name} joue à {member.activity.game}")
+
     # ######### #
     # Functions #
     # ######### #
