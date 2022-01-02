@@ -1,49 +1,37 @@
-- [x] {1} Faire un système de changement de préfix de commande
-- [x] {2} Faire des décorateurs qui permettent l'exec uniquement par:
-    - [x] {2.1} moi uniquement
-    - [x] {2.2} un groupe de confiance ajouter en dur dans le code
-    - [x] {2.3} le propriétaire du serveur
-    - [x] {2.4} un rôle
-    - [x] {2.5} plusieurs rôles
-    - [x] {2.6} au moins n rôles parmis les rôles
-- [ ] {3} Faire un cog de banque
-    - [ ] {3.1} Retirer de l'argent aux personnes en prison
-    - [ ] {3.2} Faire un casino
-        - [ ] {3.2.1} Blackjack
-        - [ ] {3.2.2} Roulette
-        - [ ] {3.2.3} Machine à sous
-    - [ ] {3.3} Faire un cog de jeux
-        - [ ] {3.3.1} Faire 
-        - [ ] {3.3.2} Voler le puissance 4 de Marc (hehehe)
-        - [ ] {3.3.3} Morpion
-        - [ ] {3.3.4} Sudoku ?
-- [ ] {4} Cog Todo
-    - [x] {4.1} Afficher
-    - [x] {4.2} Ajouter des éléments
-    - [x] {4.3} Supprimer des éléments
-    - [ ] {4.4} Insérer des éléments
-    - [x] {4.5} Cocher/Valider les éléments
-    - [ ] {4.6} Écrire un Todo en Yaml
-        - [ ] {4.6.1} Pouvoir générer un Markdown à partir du Yaml
-    - [ ] {4.7} trier une liste de todo par multi-index
-- [ ] {5} Faire venir le bot dans un channel 
-    - [ ] {5.1} Musique
-    - [ ] {5.2} Lui faire dire oralement des choses (cf: marc)
-- [x] {6} Faire un cogs de prison
-- [ ] {7} Faire un cogs de rôles
-- [ ] {8} Faire un cogs de statistiques du serveur
-- [ ] {9} Faire un cogs de spam/troll
-- [ ] {10} Faire un cogs de question/réponse avec le bot 
-    - [ ] {10.1} Utiliser une IA
-- [x] {11} Mettre une base de données/YAML/JSON
-- [x] {12} Faire un cogs de sondage
-    - [ ] {12.1} Mettre les message dans un embed
-- [x] {13} Faire un cogs de liens utiles
-- [x] {14} Pouvoir récupérer un id:
-    - [x] {14.1} de membre
-    - [x] {14.2} de rôle
-    - [x] {14.3} de server
-    - [x] {14.4} de channel
-    - [x] {14.5} d'emoji
-- [ ] {15} Faire un cog de citation
-    - [ ] {15.1} Pouvoir laisser les utilisateurs rajouter leurs propres citations
+- [ ] {1} Faire un cog de banque
+    - [ ] {1.1} Retirer de l'argent aux personnes en prison
+    - [ ] {1.2} Faire un casino
+        - [ ] {1.2.1} Blackjack
+        - [ ] {1.2.2} Roulette
+        - [ ] {1.2.3} Machine à sous
+    - [ ] {1.3} Faire un cog de jeux
+        - [ ] {1.3.1} Faire 
+        - [ ] {1.3.2} Voler le puissance 4 de Marc (hehehe)
+        - [ ] {1.3.3} Morpion
+        - [ ] {1.3.4} Sudoku ?
+- [ ] {2} Cog Todo
+    - [x] {2.1} Afficher
+    - [x] {2.2} Ajouter des éléments
+    - [x] {2.3} Supprimer des éléments
+    - [ ] {2.4} Insérer des éléments
+    - [x] {2.5} Cocher/Valider les éléments
+    - [ ] {2.6} Écrire un Todo en Yaml
+        - [ ] {2.6.1} Pouvoir générer un Markdown à partir du Yaml
+    - [ ] {2.7} Trier une liste de todo par multi-index
+    - [ ] {2.8} Rajouter une fonctionnalité de réarangement des multi-index
+    - [ ] {2.9} Rajouter une fonctionnalité d'archivage des tâches complêtement effectuer
+- [ ] {3} Faire venir le bot dans un channel 
+    - [ ] {3.1} Musique
+    - [ ] {3.2} Lui faire dire oralement des choses (cf: marc)
+- [x] {4} Faire un cogs de prison
+- [ ] {5} Faire un cogs de rôles
+- [ ] {6} Faire un cogs de statistiques du serveur
+- [ ] {7} Faire un cogs de spam/troll
+- [ ] {8} Faire un cogs de question/réponse avec le bot 
+    - [ ] {8.1} Utiliser une IA
+- [x] {9} Mettre une base de données/YAML/JSON
+- [x] {10} Faire un cogs de sondage
+    - [ ] {10.1} Mettre les message dans un embed
+- [x] {11} Faire un cogs de liens utiles
+- [ ] {12} Faire un cog de citation
+    - [ ] {12.1} Pouvoir laisser les utilisateurs rajouter leurs propres citations

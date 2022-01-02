@@ -14,8 +14,23 @@ famous:
             quotation: Si tu veux savoir ce que les autres pensent, tu dois d'abord dire ce à quoi tu penses.
         -   author: Marco Ikusaba
             quotation: Si aujourd'hui est le pire jour qui soit... alors tu sais que demain sera meilleur!
-        -   author: Je ne te déteste pas je veux juste toucher ton visage avec ma hache.
-            quotation: Yuno Gasai
+        -   author: Yuno Gasai
+            quotation: Je ne te déteste pas je veux juste toucher ton visage avec ma hache.
+    Jules César:
+        -   author: Jules César
+            quotation: Veni Vedi Vici
+    Coluche:
+        -   author: Coluche
+            quotation: Pour critiquer les gens il faut les connaître, et pour les connaître, il faut les aimer.
+    Albert Einstein:
+        -   author: Albert Einstein
+            quotation: Placez votre main sur un poêle une minute et ça vous semble durer une heure. Asseyez vous auprès d'une jolie fille une heure et ça vous semble durer une minute. C'est ça la relativité.
+        -   author: Albert Einstein
+            quotation: Dieu ne joue pas aux dés.
+        -   author: Albert Einstein
+            quotation: C'est le rôle essentiel du professeur d'éveiller la joie de travailler et de connaître.
+        -   author: Albert Einstein
+            quotation: "L'enseignement devrait être ainsi : celui qui le reçoit le recueille comme un don inestimable mais jamais comme une contrainte pénible."
 users:
     "283649186446966784":
         -   date: 2021-02-23
