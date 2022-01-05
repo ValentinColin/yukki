@@ -21,10 +21,9 @@ class Lol(commands.Cog):
     @commands.Cog.listener(name="game launched")
     async def game_launched(self, ctx: commands.Context):
         """Notifie dés qu'une personne lance un jeu"""
-        member: discord.Member
         async for m in ctx.guild.members:
-            if member.activity == discord.ActivityType.playing:
-                print(f"{member.display_name} joue à {member.activity.game}")
+            if m.activity == discord.ActivityType.playing:
+                print(f"{m.display_name} joue à {m.activity.game}")
 
     # ######### #
     # Functions #
@@ -40,6 +39,13 @@ class Lol(commands.Cog):
     async def une_commande(self, ctx: commands.Context, *, txt: str):
         """Une commande dont je ne connais pas l'utilité."""
         await ctx.send(fcite(txt))
+
+
+    @commands.command()
+    @access.me
+    async def lol_test(self, ctx: commands.Context, *, txt: str):
+        """Commande de test"""
+        await ctx.send(ctx.author.activities[0].name)
 
 
 def setup(bot: commands.Bot):
